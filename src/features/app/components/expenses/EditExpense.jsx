@@ -45,9 +45,9 @@ export class EditExpense extends React.Component {
       if (loading === false) {
         const { type, cost, notes, paid, percent } = this.props.expense;
         return (
-          <div>
+          <div className="form-container">
             <button onClick={e => this.handleCancel(e)} className="button">Back to Event</button>
-            <h1 className="text-center">Modify Expense</h1>
+            <h2 className="text-center page-header">Modify Expense</h2>
             <form className="custom-form">
               <label htmlFor="type">Type</label>
               <input type="text" name="type" ref={(ref) => { this.type = ref; }} defaultValue={type} />

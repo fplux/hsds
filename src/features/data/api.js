@@ -248,6 +248,7 @@ export function editExpenseDetails(eventId, expenseId, expense) {
   const expensesRef = eventRef.child('expenses');
   const expenseRef = expensesRef.child(expenseId);
   expenseRef.update(expense);
+  store.dispatch(actions.clearExpense());
 }
 
 export function removeExpense(id, expenseId) {

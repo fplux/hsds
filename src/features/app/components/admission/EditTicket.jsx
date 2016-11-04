@@ -42,7 +42,7 @@ export class EditTicket extends React.Component {
               <input type="text" name="type" ref={(ref) => { this.type = ref; }} defaultValue={type} />
               <label htmlFor="notes">Price</label>
               <input type="text" name="notes" ref={(ref) => { this.price = ref; }} defaultValue={price} />
-              <button onClick={e => this.handleSubmit(e)} className="custom-buttons button">Submit</button>
+              <button onClick={e => this.handleSubmit(e)} className="custom-buttons button">Save</button>
               <button onClick={e => this.handleCancel(e)} className="custom-buttons button">Cancel</button>
               <button onClick={e => this.handleRemove(e)} className="custom-buttons button alert">Remove</button>
             </form>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 import * as api from '../../../data/api';
-import * as actions from '../../../data/actions';
 import { Admission } from '../admission/Admission';
 import { Expenses } from '../expenses/Expenses';
 import { AdminFee } from '../adminfee/AdminFee';
@@ -13,9 +12,6 @@ export class EventDetail extends React.Component {
   constructor(props) {
     super(props);
     api.fetchEventDetails(this.props.params.id);
-  }
-  componentWillUnmount() {
-    this.props.dispatch(actions.clearEvent());
   }
   handleClick(e) {
     if (this.props.disabled === true) {
