@@ -15,6 +15,7 @@ export { PastEventsContainer } from './event/PastEventsContainer';
 
 export { Tickets } from './admission/Tickets';
 export { AddTicket } from './admission/AddTicket';
+export { AddTicketContainer } from './admission/AddTicketContainer';
 export { EditTicketContainer } from './admission/EditTicketContainer';
 
 

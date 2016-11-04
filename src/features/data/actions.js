@@ -30,6 +30,16 @@ export function fetchTicketDetails(ticket) {
   };
 }
 
+export function fetchCommonTickets(common) {
+  return function (dispatch) { //eslint-disable-line
+    dispatch({ type: 'START_FETCHING_COMMON' });
+    dispatch({
+      type: 'RECEIVED_COMMON_TICKETS',
+      common,
+    });
+  };
+}
+
 export const clearTicket = () => ({
   type: 'CLEAR_TICKET',
 });

@@ -64,6 +64,23 @@ export function addTicket(eventId, newTicket) {
   eventTickets.child(newTicketKey).update(newTicket);
 }
 
+export function deleteTicket(eventId, ticketId) {
+  eventsRef.child(eventId).child('tickets').child(ticketId).remove();
+}
+
+export function fetchCommonTickets() {
+  const common = [];
+  firebaseRef.child('tickets').on('value', (snapshot) => {
+    const tickets = snapshot.val() || '';
+    Object.keys(tickets).forEach((ticket) => { // Iterate through event and push it to an array
+      common.push({
+        ...tickets[ticket],
+      });
+    });
+    store.dispatch(actions.fetchCommonTickets(common));
+  });
+}
+
 
 // Fetch ticket details given a ticket ID
 export function fetchTicketDetails(id, ticketid) {

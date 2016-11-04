@@ -77,9 +77,30 @@ export const ticket = (state = [], action) => {
   }
 };
 
+export const common = (state = [], action) => {
+  switch (action.type) {
+    case 'START_FETCHING_COMMON':
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'RECEIVED_COMMON_TICKETS':
+      return {
+        ...state,
+        tickets: {
+          ...action.common,
+        },
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   events,
   event,
   ticket,
   expense,
+  common,
 });

@@ -52,12 +52,12 @@ export class EventDetail extends React.Component {
         const eventId = this.props.params.id;
         return (
           <div>
-            <h1 className="text-center">
+            <h3 className="text-center">
               {event.name} | {event.date}
               <Link onClick={e => this.handleClick(e)} className="edit" to={`events/${eventId}/edit`}>
                 Edit Event
               </Link>
-            </h1>
+            </h3>
             {disabledMessage()}
             <Admission
               tickets={event.tickets}
@@ -65,9 +65,6 @@ export class EventDetail extends React.Component {
               disabled={this.props.event.disabled}
               totalRevenue={event.totalRevenue}
               totalCount={event.totalCount}
-              modifyTicket={() => this.modifyTicket}
-              updateTicket={() => this.updateTicket}
-              updateTotals={() => this.updateTotals}
             />
             {renderAdminFee()}
             <Expenses

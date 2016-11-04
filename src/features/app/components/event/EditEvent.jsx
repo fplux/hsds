@@ -10,9 +10,7 @@ export class EditEvent extends React.Component {
   constructor(props) {
     super(props);
     const { id } = this.props.params;
-    if (this.props.event.length === 0) {
-      api.fetchEventDetails(id);
-    }
+    api.fetchEventDetails(id);
     this.state = {
       startDate: moment(),
       error: false,
@@ -46,29 +44,29 @@ export class EditEvent extends React.Component {
   }
   handleRemove() {
     const { id } = this.props.params;
-    this.props.dispatch(deleteEvent(id));
+    api.deleteEvent(id);
     window.location = '#/events/';
   }
   render() {
-    console.log(this.props);
     const errorMessage = () => {
       if (this.state.error) {
         return (
           <p className="error-message">You must enter a date</p>
         );
       }
-    }
+      return true;
+    };
     const renderForm = () => {
-      if (this.props.event.loading === true) {
+      if (this.props.loading === true) {
         return (
           <Loading />
         );
       }
-      if (this.props.event.loading === false) {
-        const { name, date, time, fee, max_fee, band_minimum, cash } = this.props.event[0];
+      if (this.props.loading === false) {
+        const { name, time, fee, max_fee, band_minimum, cash } = this.props.event;
         const { id } = this.props.params;
         return (
-          <div>
+          <div className="form-container">
             <Link to={`events/${id}`}><button className="button">Back to Event</button></Link>
             <h1 className="text-center">Modify Event</h1>
             <form className="custom-form">
@@ -91,15 +89,16 @@ export class EditEvent extends React.Component {
               <input type="text" name="percent" ref={(ref) => { this.band_minimum = ref; }} defaultValue={band_minimum} />
               <label htmlFor="percent">Cash</label>
               <input type="text" name="percent" ref={(ref) => { this.cash = ref; }} defaultValue={cash} />
-              <button type="button" onClick={e => this.handleSubmit(e)} className="button">Submit</button>
-              <Link to={`events/${id}`}><button type="button" className="button">Cancel</button></Link>
-              <button type="button" onClick={() => this.handleRemove()} className="button alert">Remove</button>
+              <button onClick={e => this.handleSubmit(e)} className="custom-buttons button">Submit</button>
+              <Link to={`events/${id}`}><button className="custom-buttons button">Cancel</button></Link>
+              <button onClick={() => this.handleRemove()} className="custom-buttons button alert">Remove</button>
               <br />
               {errorMessage()}
             </form>
           </div>
         );
       }
+      return true;
     };
     return (
       <div>
@@ -108,3 +107,18 @@ export class EditEvent extends React.Component {
     );
   }
 }
+
+EditEvent.propTypes = {
+  params: React.PropTypes.shape({
+    id: React.PropTypes.string,
+  }),
+  loading: React.PropTypes.bool,
+  event: React.PropTypes.shape({
+    name: React.PropTypes.string,
+    time: React.PropTypes.string,
+    fee: React.PropTypes.string,
+    max_fee: React.PropTypes.string,
+    band_minimum: React.PropTypes.string,
+    cash: React.PropTypes.number,
+  }),
+};

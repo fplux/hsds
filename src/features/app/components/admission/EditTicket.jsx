@@ -18,10 +18,11 @@ export class EditTicket extends React.Component {
     api.editTicketDetails(id, ticketid, ticketDetails);
     window.location = `#/events/${id}`;
   }
-  handleRemove() {
-    const { id } = this.props.params;
-    api.deleteEvent(id);
-    window.location = '#/events/';
+  handleRemove(e) {
+    e.preventDefault();
+    const { id, ticketid } = this.props.params;
+    api.deleteTicket(id, ticketid);
+    window.location = `#/events/${id}`;
   }
   handleCancel(e) {
     e.preventDefault();
@@ -43,7 +44,7 @@ export class EditTicket extends React.Component {
               <input type="text" name="notes" ref={(ref) => { this.price = ref; }} defaultValue={price} />
               <button onClick={e => this.handleSubmit(e)} className="button">Submit</button>
               <button onClick={e => this.handleCancel(e)} className="button">Cancel</button>
-              <button onClick={() => this.handleRemove()} className="button alert">Remove</button>
+              <button onClick={e => this.handleRemove(e)} className="button alert">Remove</button>
             </form>
           </div>
         );

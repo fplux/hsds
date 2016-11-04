@@ -1,3 +1,8 @@
+body {
+  font-family: 'Quattrocento Sans', sans-serif;
+  font-size: 1.3em;
+}
+
 .table-styles {
   box-shadow: 4px 4px 4px black;
   border: 2px solid black;
@@ -11,12 +16,22 @@
 }
 
 .custom-buttons {
-  margin: 0 10px 0 10px;
+  margin: 10px 10px 10px 10px;
+  width: 200px;
+  font-size: 0.9em;
 }
 
 .form-container {
   margin: 0 auto;
   width: 75%;
+}
+
+.ticket-form-container {
+  width: 50%;
+}
+
+.success-message {
+  color: green;
 }
 
 @media (max-width: 600px) {

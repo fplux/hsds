@@ -24,7 +24,7 @@ const {
   EventsListContainer,
   EventDetailContainer,
   EditEventContainer,
-  AddTicket,
+  AddTicketContainer,
   EditTicketContainer,
   EditExpenseContainer,
   AddExpense,
@@ -42,7 +42,7 @@ ReactDOM.render(
         <Route path="/new" component={AddEvent} />
         <Route path="/reports" component={ReportsContainer} />
         <Route path="events/:id" component={EventDetailContainer} />
-        <Route path="events/:id/addticket" component={AddTicket} />
+        <Route path="events/:id/addticket" component={AddTicketContainer} />
         <Route path="events/:id/addexpense" component={AddExpense} />
         <Route path="events/:id/edit" component={EditEventContainer} />
         <Route path="events/:id/editticket/:ticketid" component={EditTicketContainer} />

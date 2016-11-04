@@ -23,9 +23,19 @@ export class Reports extends React.Component {
           );
       }
     };
+    const renderTotal = () => {
+      if (this.props.loading === false) {
+        const { events } = this.props;
+        const netArray = [];
+        Object.keys(events).map((event) => {
+          netArray.push(events[event].net);
+        });
+        return netArray.reduce((a, b) => a + b);
+      }
+    };
     return (
       <div>
-        <p>Reports Page</p>
+        <h3 className="text-center">Reports</h3>
         <table>
           <thead>
             <tr>
@@ -36,6 +46,10 @@ export class Reports extends React.Component {
           </thead>
           <tbody>
             {renderEvents()}
+            <tr>
+              <td colSpan="2">Totals</td>
+              <td>${renderTotal()}</td>
+            </tr>
           </tbody>
         </table>
       </div>
