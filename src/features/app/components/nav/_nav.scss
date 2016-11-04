@@ -1,0 +1,31 @@
+.top-bar {
+  background: rgba(42, 66, 112, 1);
+  padding: 0;
+
+  .menu-text {
+    color: white;
+    font-size: 2em;
+  }
+  .menu-text:hover {
+    cursor: default;
+  }
+
+  .menu {
+    background: rgba(42, 66, 112, 1);
+    color: white;
+
+    li:hover:not(.menu-text) {
+      background-color: rgba(69, 91, 138, 1);
+    }
+
+    .link {
+      display: inline;
+      height: 54px;
+      color: white;
+    }
+
+    .link:hover {
+      background-color: rgba(69, 91, 138, 1);
+    }
+  }
+}

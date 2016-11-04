@@ -1,0 +1,26 @@
+.table-styles {
+  box-shadow: 4px 4px 4px black;
+  border: 2px solid black;
+  td {
+    padding: 5px;;
+  }
+  button {
+    margin-top: 0.7 rem;
+    margin-bottom: 0.7rem;
+  }
+}
+
+.custom-buttons {
+  margin: 0 10px 0 10px;
+}
+
+.form-container {
+  margin: 0 auto;
+  width: 75%;
+}
+
+@media (max-width: 600px) {
+  .form-container {
+    width: 100%;
+  }
+}

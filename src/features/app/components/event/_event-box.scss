@@ -1,0 +1,42 @@
+.event-box {
+  display: block;
+  position: relative;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 0 0 20px 0;
+  background: rgba(183, 181, 182, 0.1);
+  box-shadow: 5px 5px 5px black;
+  transition: 0.3s ease;
+}
+
+.event-box:hover {
+  background: rgba(183, 181, 182, 0.4);
+  transition: 0.3s ease;
+}
+
+.event-box-link {
+  color: black;
+}
+
+.event-box-link:hover {
+  color: black;
+}
+
+.delete-x {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid black;
+    text-align: center;
+    background: rgba(205, 16, 16, 1);
+    color: black;
+    cursor: pointer;
+}
+
+.delete-x:hover {
+  transform: scale(1.05);
+}
