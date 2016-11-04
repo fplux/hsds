@@ -2,8 +2,8 @@
 @include foundation-everything;
 @import './resets';
 @import './shared';
+@import '~react-datepicker/dist/react-datepicker.min.css';
 @import '~foundation-icons/foundation-icons.scss';
-@import './base/react-datepicker.min.css';
 @import '../features/app/components/event/event-box';
 @import '../features/app/components/app/app';
 @import '../features/app/components/nav/nav';

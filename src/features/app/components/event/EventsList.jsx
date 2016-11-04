@@ -34,7 +34,7 @@ export class EventsList extends React.Component {
 
     return (
       <div>
-        <h3 className="text-center">Upcoming Events</h3>
+        <h3 className="text-center page-header">Upcoming Events</h3>
         {renderEvents()}
       </div>
     );

@@ -29,8 +29,8 @@ export class Expenses extends React.Component {
     };
     return (
       <div>
-        <h1 className="text-center">Expenses</h1>
-        <Link onClick={e => this.handleClick(e)} to={`events/${eventId}/addexpense`}>Add Expense</Link>
+        <h3 className="text-center table-header">Expenses</h3>
+        <Link className="table-add-link" onClick={e => this.handleClick(e)} to={`events/${eventId}/addexpense`}>Add Expense</Link>
         <table className="table-styles">
           <thead>
             <tr>

@@ -13,6 +13,7 @@ body {
     margin-top: 0.7rem;
     margin-bottom: 0.7rem;
   }
+  margin-bottom: 50px;
 }
 
 .hidden {
@@ -61,5 +62,21 @@ body {
   }
   .table-styles {
     width: 100%!important;
+    th, td {
+      font-size: .7em;
+    }
+    margin-bottom: 20px;
+  }
+  .page-header {
+    margin: 20px 0 20px 0;
+  }
+
+  .table-header {
+    margin-bottom: -12px;
+  }
+
+  .table-add-link {
+    font-size: .7em;
+    float:left;
   }
 }

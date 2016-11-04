@@ -1,8 +1,8 @@
 import React from 'react';
 
 export const Cashbox = props => (
-  <div>
-    <h1 className="text-center">Cashbox</h1>
+  <div className="table-container">
+    <h3 className="text-center">Cashbox</h3>
     <table className="table-styles">
       <thead>
         <tr>

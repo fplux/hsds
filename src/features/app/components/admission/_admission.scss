@@ -9,8 +9,8 @@
 }
 
 .edit {
-  font-size: 0.4em;
-  margin-left: 20px;
+  font-size: 1em;
+  margin: 10px 0 40px 0;
 }
 
 .disabled-message, .error-message {
@@ -22,5 +22,15 @@
 }
 
 @media (max-width: 600px) {
-  
+  .fi-plus, .fi-minus {
+    font-size: 1.5em;
+  }
+  .custom-button {
+    width: 40px;
+    height: 40px;
+  }
+  .edit {
+    margin: -20px 0 10px 0;
+    font-size: 0.6em;
+  }
 }

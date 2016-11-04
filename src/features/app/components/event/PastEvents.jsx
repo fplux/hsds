@@ -35,7 +35,7 @@ export class PastEvents extends React.Component {
 
     return (
       <div>
-        <h3 className="text-center">Past Events</h3>
+        <h3 className="text-center page-header">Past Events</h3>
         {renderEvents()}
       </div>
     );

@@ -43,7 +43,7 @@ export class AddEvent extends React.Component {
     };
     return (
       <div className="form-container">
-        <h1 className="text-center">Add Event</h1>
+        <h1 className="text-center page-header">Add Event</h1>
         <form className="custom-form">
           <label htmlFor="type">Name</label>
           <input type="text" name="type" ref={(ref) => { this.name = ref; }} />
@@ -64,7 +64,7 @@ export class AddEvent extends React.Component {
           <label htmlFor="cash">Cash</label>
           <input type="text" name="cash" ref={(ref) => { this.cash = ref; }} defaultValue="0" />
           <button onClick={e => this.handleSubmit(e)} className="custom-buttons button">Submit</button>
-          <Link to="events"><button type="button" className="custom-buttons button">Cancel</button></Link>
+          <Link to="events"><button className="custom-buttons button alert">Cancel</button></Link>
           <br />
           {errorMessage()}
           {this.state.errorMessage}

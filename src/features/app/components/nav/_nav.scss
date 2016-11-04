@@ -1,5 +1,7 @@
+$navbackground: rgba(42, 66, 112, 1);
+
 .top-bar {
-  background: rgba(42, 66, 112, 1);
+  background: $navbackground;
   padding: 0;
 
   .menu-text {
@@ -25,7 +27,7 @@
     }
 
     .link:hover {
-      background-color: rgba(69, 91, 138, 1);
+      background-color: $navbackground;
     }
   }
 }
@@ -35,13 +37,17 @@
     margin: 0;
     padding: 0;
     width: 100vw;
+    height: 35px;
     .menu-text {
       display: none;
     }
     .link {
-      font-size: .8em;
-      padding: 10px 10px;
+      font-size: .9em;
+      padding: 10px 5px;
       margin: 0;
+    }
+    .link:hover {
+      background-color: rgba(69, 91, 138, 1);
     }
   }
 }

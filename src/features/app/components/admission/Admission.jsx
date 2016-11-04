@@ -24,7 +24,8 @@ export class Admission extends React.Component {
 
     return (
       <div className="table-container">
-        <Link onClick={e => this.handleClick(e)} to={`events/${eventId}/addticket`}>Add Tickets</Link>
+        <h3 className="text-center table-header">Tickets</h3>
+        <Link className="table-add-link" onClick={e => this.handleClick(e)} to={`events/${eventId}/addticket`}>Add Tickets</Link>
         <table className="table-styles">
           <thead>
             <tr>

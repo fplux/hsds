@@ -52,12 +52,14 @@ export class EventDetail extends React.Component {
         const eventId = this.props.params.id;
         return (
           <div>
-            <h3 className="text-center">
+            <h2 className="text-center page-header">
               {event.name} | {event.date}
-              <Link onClick={e => this.handleClick(e)} className="edit" to={`events/${eventId}/edit`}>
+            </h2>
+            <div className="text-center edit">
+              <Link onClick={e => this.handleClick(e)} to={`events/${eventId}/edit`}>
                 Edit Event
               </Link>
-            </h3>
+            </div>
             {disabledMessage()}
             <Admission
               tickets={event.tickets}

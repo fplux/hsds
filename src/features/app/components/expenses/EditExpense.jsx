@@ -10,7 +10,7 @@ export class EditExpense extends React.Component {
   }
 
   // Take the form submission and send it to the database
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
     const { id, expenseid } = this.props.params;
     const modifiedExpense = {
@@ -25,7 +25,7 @@ export class EditExpense extends React.Component {
   }
 
   // Remove the entry from the database, and navigate to the /events page
-  handleRemove(e) {
+  handleRemove = (e) => {
     e.preventDefault();
     const { expenseid, id } = this.props.params;
     api.removeExpense(id, expenseid);
@@ -33,7 +33,7 @@ export class EditExpense extends React.Component {
   }
 
   // This function clears out the entry that was stored in Redux
-  handleCancel(e) {
+  handleCancel = (e) => {
     e.preventDefault();
     const { id } = this.props.params;
     this.props.dispatch(actions.clearExpense());
@@ -59,9 +59,9 @@ export class EditExpense extends React.Component {
               <input type="text" name="percent" ref={(ref) => { this.percent = ref; }} defaultValue={percent} />
               <label htmlFor="paid">Paid</label>
               <input type="checkbox" name="paid" ref={(ref) => { this.paid = ref; }} defaultChecked={paid} /><br />
-              <button onClick={e => this.handleSubmit(e)} className="button">Save</button>
-              <button onClick={e => this.handleCancel(e)} className="button">Cancel</button>
-              <button onClick={e => this.handleRemove(e)} className="button alert">Remove</button>
+              <button onClick={this.handleSubmit} className="custom-buttons button">Save</button>
+              <button onClick={this.handleCancel} className="custom-buttons button">Cancel</button>
+              <button onClick={this.handleRemove} className="custom-buttons button alert">Remove</button>
             </form>
           </div>
         );

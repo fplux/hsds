@@ -34,7 +34,7 @@ export class EditTicket extends React.Component {
       if (this.props.loading === false) {
         const { price, type } = this.props.ticket;
         return (
-          <div>
+          <div className="form-container">
             <button onClick={e => this.handleCancel(e)} className="button">Back to Event</button>
             <h1 className="text-center">Modify Ticket</h1>
             <form className="custom-form">
@@ -42,9 +42,9 @@ export class EditTicket extends React.Component {
               <input type="text" name="type" ref={(ref) => { this.type = ref; }} defaultValue={type} />
               <label htmlFor="notes">Price</label>
               <input type="text" name="notes" ref={(ref) => { this.price = ref; }} defaultValue={price} />
-              <button onClick={e => this.handleSubmit(e)} className="button">Submit</button>
-              <button onClick={e => this.handleCancel(e)} className="button">Cancel</button>
-              <button onClick={e => this.handleRemove(e)} className="button alert">Remove</button>
+              <button onClick={e => this.handleSubmit(e)} className="custom-buttons button">Submit</button>
+              <button onClick={e => this.handleCancel(e)} className="custom-buttons button">Cancel</button>
+              <button onClick={e => this.handleRemove(e)} className="custom-buttons button alert">Remove</button>
             </form>
           </div>
         );

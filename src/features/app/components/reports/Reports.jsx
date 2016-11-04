@@ -35,8 +35,8 @@ export class Reports extends React.Component {
     };
     return (
       <div>
-        <h3 className="text-center">Reports</h3>
-        <table>
+        <h3 className="text-center page-header">Reports</h3>
+        <table className="table-styles">
           <thead>
             <tr>
               <th>Event</th>

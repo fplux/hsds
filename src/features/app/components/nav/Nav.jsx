@@ -9,12 +9,15 @@ export const Nav = () => (
         <li>
           <IndexLink to="/" className="link" activeClassName="active" activeStyle={{ fontWeight: 'bold' }}>Events</IndexLink>
         </li>
+        <li> | </li>
         <li>
           <Link to="/new" className="link" activeClassName="active" activeStyle={{ fontWeight: 'bold' }}>Add Event</Link>
         </li>
+        <li> | </li>
         <li>
           <Link to="/past" className="link" activeClassName="active" activeStyle={{ fontWeight: 'bold' }}>Past Events</Link>
         </li>
+        <li> | </li>
         <li>
           <Link to="/reports" className="link" activeClassName="active" activeStyle={{ fontWeight: 'bold' }}>Reports</Link>
         </li>
