@@ -29,3 +29,19 @@
     }
   }
 }
+
+@media (max-width: 600px) {
+  .top-bar, .top-bar-left {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    .menu-text {
+      display: none;
+    }
+    .link {
+      font-size: .8em;
+      padding: 10px 10px;
+      margin: 0;
+    }
+  }
+}

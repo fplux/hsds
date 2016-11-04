@@ -24,7 +24,7 @@ export class Tickets extends React.Component {
             onClick={() => this.handleModifyTicket('add')}
             className="button success large custom-button"
           >
-            Add
+            <i className="fi-plus" />
           </button>
         </td>
         <td>
@@ -32,8 +32,7 @@ export class Tickets extends React.Component {
             disabled={this.props.count === 0 || this.props.disabled}
             onClick={() => this.handleModifyTicket('remove')}
             className="button alert large custom-button"
-          >
-            Remove
+          ><i className="fi-minus" />
           </button>
         </td>
         <td>{this.props.count}</td>

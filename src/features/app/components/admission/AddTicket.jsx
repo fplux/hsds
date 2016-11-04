@@ -63,7 +63,7 @@ export class AddTicket extends React.Component {
     };
     const { id } = this.props.params;
     return (
-      <div>
+      <div className="form-container">
         <Link to={`events/${id}`}><button className="button">Back to Event</button></Link>
         <div className="row">
           <div className="large-6 column">
@@ -71,7 +71,7 @@ export class AddTicket extends React.Component {
             <form className="custom-form">
               <input type="text" ref={(ref) => { this.type = ref; }} placeholder="Ticket Type" autoFocus />
               <input type="text" ref={(ref) => { this.price = ref; }} placeholder="Price" />
-              <button type="button" className="button" onClick={e => this.handleSubmit(e)}>Submit</button>
+              <button className="button success expanded" onClick={e => this.handleSubmit(e)}>Submit</button>
             </form>
           </div>
           <div className="large-5 column quick-add">

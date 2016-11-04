@@ -10,7 +10,7 @@ body {
     padding: 5px;;
   }
   button {
-    margin-top: 0.7 rem;
+    margin-top: 0.7rem;
     margin-bottom: 0.7rem;
   }
 }
@@ -46,5 +46,20 @@ body {
 @media (max-width: 600px) {
   .form-container {
     width: 100%;
+    margin: 0;
+    padding: 0;
+
+    input, select {
+        width: 82%;
+    }
+  }
+  .custom-buttons {
+    margin: 5px 1px;
+    padding: 10px 2px;
+    width: 107px;
+    font-size: 0.7em;
+  }
+  .table-styles {
+    width: 100%!important;
   }
 }

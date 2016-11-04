@@ -63,7 +63,7 @@ export class AddExpense extends React.Component {
     const { message } = this.state;
     const { id } = this.props.params;
     return (
-      <div>
+      <div className="form-container">
         <button onClick={e => this.handleCancel(e)} className="button">Back to Event</button>
         <h1 className="text-center">Create New Expense</h1>
         <form className="custom-form">
@@ -77,9 +77,9 @@ export class AddExpense extends React.Component {
           <input type="text" ref={(ref) => { this.notes = ref; }} placeholder="Notes..." />
           <input type="text" ref={(ref) => { this.percent = ref; }} disabled={this.state.percentDisabled} onChange={() => this.handleChange()} placeholder="Percent..." />
           <input type="text" ref={(ref) => { this.cost = ref; }} disabled={this.state.costDisabled} onChange={() => this.handleChange()} placeholder="Cost..." />
-          <button className="button" onClick={() => this.handleSubmit(submit)} type="button">Save</button>
-          <button className="button" onClick={() => this.handleSubmit(addAnother)} type="button">Save and Add</button>
-          <button onClick={e => this.handleCancel(e)} className="button">Cancel</button>
+          <button className="custom-buttons button" onClick={() => this.handleSubmit(submit)} type="button">Save</button>
+          <button className="custom-buttons button" onClick={() => this.handleSubmit(addAnother)} type="button">Save and Add</button>
+          <button className="custom-buttons button alert" onClick={e => this.handleCancel(e)}>Cancel</button>
           <br />
           {message}
         </form>

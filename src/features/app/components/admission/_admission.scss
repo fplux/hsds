@@ -1,5 +1,7 @@
 .custom-button {
-  width: 150px;
+  width: 85px;
+  height: 85px;
+  padding: 0;
 }
 
 .admin-fee {
@@ -13,4 +15,12 @@
 
 .disabled-message, .error-message {
   color: red;
+}
+
+.fi-plus, .fi-minus {
+  font-size: 3em;
+}
+
+@media (max-width: 600px) {
+  
 }
