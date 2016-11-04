@@ -39,6 +39,25 @@ export const event = (state = [], action) => {
   }
 };
 
+export const pastEvents = (state = [], action) => {
+  switch (action.type) {
+    case 'START_FETCHING_PAST_EVENTS':
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'RECEIVED_PAST_EVENTS':
+      return {
+        events: {
+          ...action.events,
+        },
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
 export const expense = (state = [], action) => {
   switch (action.type) {
     case 'START_FETCHING_EXPENSE':
@@ -103,4 +122,5 @@ export default combineReducers({
   ticket,
   expense,
   common,
+  pastEvents,
 });

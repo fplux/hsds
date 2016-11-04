@@ -8,6 +8,16 @@ export function fetchEvents(events) {
   };
 }
 
+export function fetchPastEvents(events) {
+  return function (dispatch) { //eslint-disable-line
+    dispatch({ type: 'START_FETCHING_PAST_EVENTS' });
+    dispatch({
+      type: 'RECEIVED_PAST_EVENTS',
+      events,
+    });
+  };
+}
+
 
 export function fetchEventDetails(eventDetails, disabled) {
   return function (dispatch) { //eslint-disable-line

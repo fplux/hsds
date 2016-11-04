@@ -15,6 +15,10 @@ body {
   }
 }
 
+.hidden {
+  display: none;
+}
+
 .custom-buttons {
   margin: 10px 10px 10px 10px;
   width: 200px;
@@ -24,6 +28,11 @@ body {
 .form-container {
   margin: 0 auto;
   width: 75%;
+}
+
+.throw-form-error {
+  box-shadow: 1px 1px 1px red;
+  border: 1px solid red;
 }
 
 .ticket-form-container {

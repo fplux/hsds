@@ -15,21 +15,66 @@ export function addEvent(newEvent) {
 export function deleteEvent(eventId) {
   eventsRef.child(eventId).remove();
 }
-/* Fetch Events from firebase and set them to the redux store */
 
+/* Function to sort array in ascending order */
+export function sortArrayAscending(a, b) {
+  return new Date(a.date).getTime() - new Date(b.date).getTime();
+}
+
+/* Function to sort array in descending order */
+export function sortArrayDescending(b, a) {
+  return new Date(a.date).getTime() - new Date(b.date).getTime();
+}
+
+// Function order events given a direction
+export function orderEvents(events, direction) {
+  // Create an array of the returned events
+  const eventsList = events;
+  const eventsArray = [];
+  Object.keys(eventsList).map((event) => { //eslint-disable-line
+    eventsList[event].id = event;
+    eventsArray.push(eventsList[event]);
+  });
+
+  // Sort the events
+  if (direction === 'ascending') {
+    eventsArray.sort(sortArrayAscending);
+  } else {
+    eventsArray.sort(sortArrayDescending);
+  }
+
+  // Send the objects back into an object
+  const eventsObject = {};
+  eventsArray.map((event) => { //eslint-disable-line
+    eventsObject[event.id] = event;
+  });
+
+  return eventsObject;
+}
+
+
+/* Fetch Events from firebase and set them to the redux store */
 export function fetchEvents() {
   const currentDate = moment().subtract(1, 'days').format('L');
   eventsRef.orderByChild('date').startAt(currentDate).on('value', (snapshot) => {
     const events = snapshot.val();
-    store.dispatch(actions.fetchEvents(events));
+    const direction = 'ascending';
+    const eventsObject = orderEvents(events, direction);
+
+    store.dispatch(actions.fetchEvents(eventsObject));
   });
 }
 
+/* Fetch Eventes from firebase that have occured before todays date */
 export function fetchPastEvents() {
   const currentDate = moment().subtract(1, 'days').format('L');
   eventsRef.orderByChild('date').endAt(currentDate).on('value', (snapshot) => {
     const events = snapshot.val();
-    store.dispatch(actions.fetchEvents(events));
+
+    const direction = 'descending';
+    const eventsObject = orderEvents(events, direction);
+
+    store.dispatch(actions.fetchPastEvents(eventsObject));
   });
 }
 

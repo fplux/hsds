@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import { PastEvents } from './PastEvents';
 
 const mapStateToProps = state => ({
-  events: state.data.events.events,
-  loading: state.data.events.loading,
+  events: state.data.pastEvents.events,
+  loading: state.data.pastEvents.loading,
 });
 
 export const PastEventsContainer = connect(mapStateToProps)(PastEvents);

@@ -10,6 +10,7 @@ export class AddEvent extends React.Component {
     this.state = {
       startDate: moment(),
       error: false,
+      errorMessage: '',
     };
   }
   handleChange(date) {
@@ -54,19 +55,19 @@ export class AddEvent extends React.Component {
           />
           <label htmlFor="cost">Time</label>
           <input type="text" name="cost" ref={(ref) => { this.time = ref; }} />
-          <label htmlFor="percent">Fee</label>
-          <input type="text" name="percent" ref={(ref) => { this.fee = ref; }} />
-          <label htmlFor="percent">Max Fee</label>
-          <input type="text" name="percent" ref={(ref) => { this.max_fee = ref; }} />
-          <label htmlFor="percent">Band Minimum</label>
-          <input type="text" name="percent" ref={(ref) => { this.band_minimum = ref; }} />
-          <label htmlFor="percent">Cash</label>
-          <input type="text" name="percent" ref={(ref) => { this.cash = ref; }} />
+          <label htmlFor="fee">Fee</label>
+          <input type="text" name="fee" ref={(ref) => { this.fee = ref; }} defaultValue="0" />
+          <label htmlFor="max_fee">Max Fee</label>
+          <input type="text" name="max_fee" ref={(ref) => { this.max_fee = ref; }} defaultValue="0" />
+          <label htmlFor="band_minimum">Band Minimum</label>
+          <input type="text" name="band_minimum" ref={(ref) => { this.band_minimum = ref; }} defaultValue="0" />
+          <label htmlFor="cash">Cash</label>
+          <input type="text" name="cash" ref={(ref) => { this.cash = ref; }} defaultValue="0" />
           <button onClick={e => this.handleSubmit(e)} className="custom-buttons button">Submit</button>
           <Link to="events"><button type="button" className="custom-buttons button">Cancel</button></Link>
-          <button onClick={() => this.handleRemove()} className="custom-buttons button alert">Remove</button>
           <br />
           {errorMessage()}
+          {this.state.errorMessage}
         </form>
       </div>
     );

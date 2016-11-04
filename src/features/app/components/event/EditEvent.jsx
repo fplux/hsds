@@ -3,6 +3,7 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import { Link } from 'react-router';
 import * as api from '../../../data/api';
+import * as shared from '../../../data/shared';
 
 const Loading = require('react-loading-animation');
 
@@ -28,6 +29,7 @@ export class EditEvent extends React.Component {
         error: true,
       });
     } else {
+      e.preventDefault();
       const { id } = this.props.params;
       const eventDetails = {
         name: this.name.value,
@@ -42,10 +44,13 @@ export class EditEvent extends React.Component {
       window.location = `#/events/${id}`;
     }
   }
-  handleRemove() {
-    const { id } = this.props.params;
-    api.deleteEvent(id);
-    window.location = '#/events/';
+  handleRemove(e) {
+    e.preventDefault();
+    if (shared.getConfirmation() === true) {
+      const { id } = this.props.params;
+      api.deleteEvent(id);
+      window.location = '#/events/';
+    }
   }
   render() {
     const errorMessage = () => {
@@ -91,7 +96,7 @@ export class EditEvent extends React.Component {
               <input type="text" name="percent" ref={(ref) => { this.cash = ref; }} defaultValue={cash} />
               <button onClick={e => this.handleSubmit(e)} className="custom-buttons button">Submit</button>
               <Link to={`events/${id}`}><button className="custom-buttons button">Cancel</button></Link>
-              <button onClick={() => this.handleRemove()} className="custom-buttons button alert">Remove</button>
+              <button onClick={e => this.handleRemove(e)} className="custom-buttons button alert">Remove</button>
               <br />
               {errorMessage()}
             </form>

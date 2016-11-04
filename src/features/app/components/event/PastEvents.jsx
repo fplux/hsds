@@ -20,6 +20,7 @@ export class PastEvents extends React.Component {
               <EventBox
                 key={event}
                 eventKey={event}
+                class="hidden"
                 {...eachEvent}
               />
             );
@@ -34,6 +35,7 @@ export class PastEvents extends React.Component {
 
     return (
       <div>
+        <h3 className="text-center">Past Events</h3>
         {renderEvents()}
       </div>
     );
