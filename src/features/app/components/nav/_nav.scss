@@ -48,7 +48,7 @@ $hoverlink: rgba(69, 91, 138, 1);
       margin: 0;
     }
     .link:hover {
-      background-color: rgba(69, 91, 138, 1);
+      background-color: $hoverlink;
     }
   }
 }
