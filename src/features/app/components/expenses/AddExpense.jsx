@@ -54,7 +54,7 @@ export class AddExpense extends React.Component {
   handleCancel(e) {
     e.preventDefault();
     const { id } = this.props.params;
-    window.location = `events/${id}`;
+    window.location = `#/events/${id}`;
   }
 
   render() {
