@@ -7,11 +7,11 @@ body {
   box-shadow: 4px 4px 4px black;
   border: 2px solid black;
   td {
-    padding: 5px;;
+    padding: 3px;
   }
   button {
-    margin-top: 0.7rem;
-    margin-bottom: 0.7rem;
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
   }
   margin-bottom: 50px;
 }
@@ -43,6 +43,11 @@ body {
 .success-message {
   color: green;
 }
+
+.table-header {
+  margin-bottom: -12px;
+}
+
 
 @media (max-width: 600px) {
   .form-container {
