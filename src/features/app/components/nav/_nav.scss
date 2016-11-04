@@ -1,4 +1,5 @@
 $navbackground: rgba(42, 66, 112, 1);
+$hoverlink: rgba(69, 91, 138, 1);
 
 .top-bar {
   background: $navbackground;
@@ -13,11 +14,11 @@ $navbackground: rgba(42, 66, 112, 1);
   }
 
   .menu {
-    background: rgba(42, 66, 112, 1);
+    background: $navbackground;
     color: white;
 
     li:hover:not(.menu-text) {
-      background-color: rgba(69, 91, 138, 1);
+      background-color: $hoverlink;
     }
 
     .link {
@@ -27,7 +28,7 @@ $navbackground: rgba(42, 66, 112, 1);
     }
 
     .link:hover {
-      background-color: $navbackground;
+      background-color: $hoverlink;
     }
   }
 }
