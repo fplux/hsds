@@ -18,7 +18,7 @@ export class EditExpense extends React.Component {
       notes: this.notes.value,
       cost: parseInt(this.cost.value, 10),
       percent: this.percent.value,
-      paid: this.paid.value,
+      paid: this.paid.checked,
     };
     api.editExpenseDetails(id, expenseid, modifiedExpense);
     window.location = `#/events/${id}`;
