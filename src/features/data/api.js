@@ -346,13 +346,13 @@ export function updateExpenses(eventId) {
         }
       } else {
         newAdminFee = 0;
-        newVenueExpense = (event.totalRevenue * parseInt(venueExpense.percent, 10)) / 100;
+        newVenueExpense = Math.round((event.totalRevenue * parseInt(venueExpense.percent, 10)) / 100); // eslint-disable-line
         venueMod = newVenueExpense % 1;
         const multiplier = Math.pow(10, 2);
         const result = Math.round(venueMod * multiplier) / multiplier;
         venueMod = result;
         newVenueExpense -= venueMod;
-        newBandExpense = (event.totalRevenue * (bandExpense.percent / 100)) + venueMod;
+        newBandExpense = Math.round((event.totalRevenue * (bandExpense.percent / 100)));
       }
       if (newAdminFee < 0) {
         newAdminFee = 0;
