@@ -69,6 +69,7 @@ export class EventDetail extends React.Component {
               expenses={event.expenses}
               eventId={eventId}
               disabled={this.props.event.disabled}
+              totalExpenses={event.totalExpenses}
             />
             <Cashbox cash={event.cash} endingCash={event.endingCash} net={event.net} />
           </div>

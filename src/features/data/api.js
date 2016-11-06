@@ -172,8 +172,8 @@ export function modifyTicket(eventId, typeId, count, price, edit) {
   });
 
   updateTotals(eventId);
-  updateCash(eventId);
   updateExpenses(eventId);
+  updateCash(eventId);
 }
 
 function updateTotals(eventId) {
@@ -187,6 +187,7 @@ function updateTotals(eventId) {
     })
   );
   const totalRevenue = ticketsTotal().reduce((a, b) => a + b);
+
   const getCountTotal = () => (
     Object.keys(event.tickets).map((ticket) => {
       const countTotal = event.tickets[ticket].count;
@@ -194,6 +195,7 @@ function updateTotals(eventId) {
     })
   );
   const totalCount = getCountTotal().reduce((a, b) => a + b);
+
   eventRef.update({
     totalRevenue,
     totalCount,
@@ -249,6 +251,9 @@ export function editExpenseDetails(eventId, expenseId, expense) {
   const expenseRef = expensesRef.child(expenseId);
   expenseRef.update(expense);
   store.dispatch(actions.clearExpense());
+  updateTotals(eventId);
+  updateExpenses(eventId);
+  updateCash(eventId);
 }
 
 export function removeExpense(id, expenseId) {
@@ -358,6 +363,14 @@ export function updateExpenses(eventId) {
       newAdminFee = 0;
     }
 
+    const expensesTotal = () => (
+      Object.keys(event.expenses).map((expense) => {
+        const expenseTotal = (event.expenses[expense].cost);
+        return expenseTotal;
+      })
+    );
+    const totalExpenses = expensesTotal().reduce((a, b) => a + b);
+
     // ***** Set the expenses and event updates in the database and the store
     expensesRef.child(bandExpenseId).update({
       cost: newBandExpense,
@@ -367,6 +380,7 @@ export function updateExpenses(eventId) {
     });
     eventRef.update({
       fee: newAdminFee,
+      totalExpenses,
     });
   }
 }

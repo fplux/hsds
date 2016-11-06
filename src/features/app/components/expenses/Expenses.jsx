@@ -43,6 +43,10 @@ export class Expenses extends React.Component {
           </thead>
           <tbody>
             {renderExpenses()}
+            <tr>
+              <td colSpan="4">Total</td>
+              <td>${this.props.totalExpenses}</td>
+            </tr>
           </tbody>
 
         </table>
