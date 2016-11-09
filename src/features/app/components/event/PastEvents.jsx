@@ -7,7 +7,7 @@ const Loading = require('react-loading-animation');
 export class PastEvents extends React.Component {
   constructor() {
     super();
-    api.fetchPastEvents();
+    api.fetchEvents();
   }
   render() {
     const renderEvents = () => {

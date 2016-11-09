@@ -56,25 +56,24 @@ export function orderEvents(events, direction) {
 /* Fetch Events from firebase and set them to the redux store */
 export function fetchEvents() {
   const currentDate = moment().subtract(1, 'days').format('L');
-  eventsRef.orderByChild('date').startAt(currentDate).on('value', (snapshot) => {
+  eventsRef.orderByChild('date').on('value', (snapshot) => {
     const events = snapshot.val();
+    const eventsList = {};
+    const pastEvents = {};
+    for (event in events) {
+      const i = events[event];
+      if (new Date(i.date).getTime() > new Date(currentDate).getTime()) {
+        eventsList[event] = events[event];
+      } else {
+        pastEvents[event] = events[event];
+      }
+    }
     const direction = 'ascending';
-    const eventsObject = orderEvents(events, direction);
+    const eventsObject = orderEvents(eventsList, direction);
+    const pastEventsObject = orderEvents(pastEvents, direction);
 
     store.dispatch(actions.fetchEvents(eventsObject));
-  });
-}
-
-/* Fetch Eventes from firebase that have occured before todays date */
-export function fetchPastEvents() {
-  const currentDate = moment().subtract(1, 'days').format('L');
-  eventsRef.orderByChild('date').endAt(currentDate).on('value', (snapshot) => {
-    const events = snapshot.val();
-
-    const direction = 'descending';
-    const eventsObject = orderEvents(events, direction);
-
-    store.dispatch(actions.fetchPastEvents(eventsObject));
+    store.dispatch(actions.fetchPastEvents(pastEventsObject));
   });
 }
 
@@ -89,7 +88,7 @@ export function fetchEventDetails(id) {
         ...events[event],
       });
     });
-    const disabled = parsedEvents[0].date < moment().format('L');
+    const disabled = new Date(parsedEvents[0].date).getTime() < new Date(moment().format('L')).getTime();
     store.dispatch(actions.fetchEventDetails(parsedEvents, disabled));
   });
 }
@@ -206,24 +205,26 @@ function updateTotals(eventId) {
 export function updateCash(eventId) {
   const eventRef = eventsRef.child(eventId);
   const event = store.getState().data.event[0];
+  const expenses = event.expenses;
   const parsedExpenses = [];
-  Object.keys(event.expenses).forEach((expense) => {
-    parsedExpenses.push({
-      ...event.expenses[expense],
+  if (expenses) {
+    Object.keys(expenses).forEach((expense) => {
+      parsedExpenses.push({
+        ...event.expenses[expense],
+      });
     });
-  });
-  let totalExpenses = 0;
-  for (let i = 0; i < parsedExpenses.length; i += 1) {
-    totalExpenses += parsedExpenses[i].cost;
+    let totalExpenses = 0;
+    for (let i = 0; i < parsedExpenses.length; i += 1) {
+      totalExpenses += parsedExpenses[i].cost;
+    }
+    const endingCash = (event.totalRevenue - totalExpenses) + event.cash;
+    const net = endingCash - event.cash;
+    eventRef.update({
+      totalExpenses,
+      endingCash,
+      net,
+    });
   }
-  const endingCash = (event.totalRevenue - totalExpenses) + event.cash;
-  const net = endingCash - event.cash;
-
-  eventRef.update({
-    totalExpenses,
-    endingCash,
-    net,
-  });
 }
 
 // Expenses
@@ -238,10 +239,14 @@ export function fetchExpenseDetails(eventId, expenseId) {
 }
 
 // Add expense
-export function addExpense(id, expense) {
-  const eventRef = eventsRef.child(id);
+export function addExpense(eventId, expense) {
+  const eventRef = eventsRef.child(eventId);
   const expensesRef = eventRef.child('expenses');
   expensesRef.push().set(expense);
+
+  updateTotals(eventId);
+  updateExpenses(eventId);
+  updateCash(eventId);
 }
 
 // Edit expense details given new information
@@ -251,16 +256,21 @@ export function editExpenseDetails(eventId, expenseId, expense) {
   const expenseRef = expensesRef.child(expenseId);
   expenseRef.update(expense);
   store.dispatch(actions.clearExpense());
+
   updateTotals(eventId);
   updateExpenses(eventId);
   updateCash(eventId);
 }
 
-export function removeExpense(id, expenseId) {
-  const eventRef = eventsRef.child(id);
+export function removeExpense(eventId, expenseId) {
+  const eventRef = eventsRef.child(eventId);
   const expensesRef = eventRef.child('expenses');
   const expenseRef = expensesRef.child(expenseId);
   expenseRef.remove();
+
+  updateTotals(eventId);
+  updateExpenses(eventId);
+  updateCash(eventId);
 }
 
 // change the paid status on an expense
@@ -285,102 +295,106 @@ export function updateExpenses(eventId) {
   const expenses = event.expenses;
 
   const parsedExpenses = [];
-  Object.keys(expenses).forEach((expense) => {
-    parsedExpenses.push({
-      ...expenses[expense],
-      key: expense,
-    });
-  });
 
   // Find the band expense
   function findBand(expense) {
     return expense.type === 'Band';
   }
-  const bandExpense = parsedExpenses.find(findBand); // band expense
+
   // Find the venue expense
   function findVenue(expense) {
     return expense.type === 'Venue';
   }
-  const venueExpense = parsedExpenses.find(findVenue); // venue expense
+  if (expenses) {
+    Object.keys(expenses).forEach((expense) => {
+      parsedExpenses.push({
+        ...expenses[expense],
+        key: expense,
+      });
+    });
 
-  // Make sure the band and the venue both exist
-  if (bandExpense !== undefined && venueExpense !== undefined) {
-    // define the band and expense keys
-    const bandExpenseId = bandExpense.key;
-    const venueExpenseId = venueExpense.key;
+    const bandExpense = parsedExpenses.find(findBand); // band expense
+    const venueExpense = parsedExpenses.find(findVenue); // venue expense
 
-    let newBandExpense;
-    let newVenueExpense;
-    let newAdminFee;
-    newVenueExpense = (event.totalRevenue * parseInt(venueExpense.percent, 10)) / 100;
-    let venueMod = newVenueExpense % 1;
-    newBandExpense = (event.totalRevenue * (bandExpense.percent / 100)) + venueMod;
-    if (event.totalRevenue > 0) {
-      // If the band is making more than the minimum
-      if (event.fee <= 100 && newBandExpense > event.band_minimum) {
-        if (bandExpense.percent > 0 && venueExpense.percent > 0) {
-          let tempCostVenue = (event.totalRevenue * parseInt(venueExpense.percent, 10)) / 100;
-          venueMod = tempCostVenue % 1;
+    // Make sure the band and the venue both exist
+    if (bandExpense !== undefined && venueExpense !== undefined) {
+      // define the band and expense keys
+      const bandExpenseId = bandExpense.key;
+      const venueExpenseId = venueExpense.key;
+
+      let newBandExpense;
+      let newVenueExpense;
+      let newAdminFee;
+      newVenueExpense = (event.totalRevenue * parseInt(venueExpense.percent, 10)) / 100;
+      let venueMod = newVenueExpense % 1;
+      newBandExpense = (event.totalRevenue * (bandExpense.percent / 100)) + venueMod;
+      if (event.totalRevenue > 0) {
+        // If the band is making more than the minimum
+        if (event.fee <= 100 && newBandExpense > event.band_minimum) {
+          if (bandExpense.percent > 0 && venueExpense.percent > 0) {
+            let tempCostVenue = (event.totalRevenue * parseInt(venueExpense.percent, 10)) / 100;
+            venueMod = tempCostVenue % 1;
+            const multiplier = Math.pow(10, 2);
+            const result = Math.round(venueMod * multiplier) / multiplier;
+            venueMod = result;
+            tempCostVenue += venueMod; // set the new venue cost - the mod
+            const tempCostBand = (event.totalRevenue * (bandExpense.percent / 100)) + venueMod;
+            const r = tempCostBand - event.band_minimum; // $30
+            let bandAdmin;
+            if (r > bandExpense.percent) {
+              bandAdmin = 70;
+            } else {
+              bandAdmin = r;
+            }
+
+            let venueAdmin = Math.floor((bandAdmin / (bandExpense.percent / 100)) - bandAdmin);
+            if (venueAdmin > venueExpense.percent) {
+              venueAdmin = 30;
+            }
+
+            // define variables if there is a percentage on the expense
+            newBandExpense = tempCostBand - bandAdmin;
+            newVenueExpense = tempCostVenue - venueAdmin;
+            newAdminFee = bandAdmin + venueAdmin;
+          }
+        } else {
+          newAdminFee = 0;
+          newVenueExpense = Math.round((event.totalRevenue * parseInt(venueExpense.percent, 10)) / 100); // eslint-disable-line
+          venueMod = newVenueExpense % 1;
           const multiplier = Math.pow(10, 2);
           const result = Math.round(venueMod * multiplier) / multiplier;
           venueMod = result;
-          tempCostVenue += venueMod; // set the new venue cost - the mod
-          const tempCostBand = (event.totalRevenue * (bandExpense.percent / 100)) + venueMod;
-          const r = tempCostBand - event.band_minimum; // $30
-          let bandAdmin;
-          if (r > bandExpense.percent) {
-            bandAdmin = 70;
-          } else {
-            bandAdmin = r;
-          }
-
-          let venueAdmin = Math.floor((bandAdmin / (bandExpense.percent / 100)) - bandAdmin);
-          if (venueAdmin > venueExpense.percent) {
-            venueAdmin = 30;
-          }
-
-          // define variables if there is a percentage on the expense
-          newBandExpense = tempCostBand - bandAdmin;
-          newVenueExpense = tempCostVenue - venueAdmin;
-          newAdminFee = bandAdmin + venueAdmin;
+          newVenueExpense -= venueMod;
+          newBandExpense = Math.round((event.totalRevenue * (bandExpense.percent / 100)));
         }
-      } else {
-        newAdminFee = 0;
-        newVenueExpense = Math.round((event.totalRevenue * parseInt(venueExpense.percent, 10)) / 100); // eslint-disable-line
-        venueMod = newVenueExpense % 1;
-        const multiplier = Math.pow(10, 2);
-        const result = Math.round(venueMod * multiplier) / multiplier;
-        venueMod = result;
-        newVenueExpense -= venueMod;
-        newBandExpense = Math.round((event.totalRevenue * (bandExpense.percent / 100)));
-      }
-      if (newAdminFee < 0) {
+        if (newAdminFee < 0) {
+          newAdminFee = 0;
+        }
+      } else if (event.totalRevenue === 0) {
+        newBandExpense = 0;
+        newVenueExpense = 0;
         newAdminFee = 0;
       }
-    } else if (event.totalRevenue === 0) {
-      newBandExpense = 0;
-      newVenueExpense = 0;
-      newAdminFee = 0;
+
+      const expensesTotal = () => (
+        Object.keys(event.expenses).map((expense) => {
+          const expenseTotal = (event.expenses[expense].cost);
+          return expenseTotal;
+        })
+      );
+      const totalExpenses = expensesTotal().reduce((a, b) => a + b);
+
+      // ***** Set the expenses and event updates in the database and the store
+      expensesRef.child(bandExpenseId).update({
+        cost: newBandExpense,
+      });
+      expensesRef.child(venueExpenseId).update({
+        cost: newVenueExpense,
+      });
+      eventRef.update({
+        fee: newAdminFee,
+        totalExpenses,
+      });
     }
-
-    const expensesTotal = () => (
-      Object.keys(event.expenses).map((expense) => {
-        const expenseTotal = (event.expenses[expense].cost);
-        return expenseTotal;
-      })
-    );
-    const totalExpenses = expensesTotal().reduce((a, b) => a + b);
-
-    // ***** Set the expenses and event updates in the database and the store
-    expensesRef.child(bandExpenseId).update({
-      cost: newBandExpense,
-    });
-    expensesRef.child(venueExpenseId).update({
-      cost: newVenueExpense,
-    });
-    eventRef.update({
-      fee: newAdminFee,
-      totalExpenses,
-    });
   }
 }
