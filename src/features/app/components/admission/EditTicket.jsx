@@ -1,6 +1,7 @@
 import React from 'react';
 import * as api from '../../../data/api';
 import * as actions from '../../../data/actions';
+import * as shared from '../../../data/shared';
 
 export class EditTicket extends React.Component {
   constructor(props) {
@@ -20,9 +21,11 @@ export class EditTicket extends React.Component {
   }
   handleRemove = (e) => {
     e.preventDefault();
-    const { id, ticketid } = this.props.params;
-    api.deleteTicket(id, ticketid);
-    window.location = `#/events/${id}`;
+    if (shared.confirmDeleteTicket() === true) {
+      const { id, ticketid } = this.props.params;
+      api.deleteTicket(id, ticketid);
+      window.location = `#/events/${id}`;
+    }
   }
   handleCancel = (e) => {
     e.preventDefault();

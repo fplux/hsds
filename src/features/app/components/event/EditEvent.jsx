@@ -46,7 +46,7 @@ export class EditEvent extends React.Component {
   }
   handleRemove(e) {
     e.preventDefault();
-    if (shared.getConfirmation() === true) {
+    if (shared.confirmDeleteEvent() === true) {
       const { id } = this.props.params;
       api.deleteEvent(id);
       window.location = '#/events/';

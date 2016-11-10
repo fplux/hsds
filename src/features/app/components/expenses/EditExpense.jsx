@@ -1,6 +1,7 @@
 import React from 'react';
 import * as api from '../../../data/api';
 import * as actions from '../../../data/actions';
+import * as shared from '../../../data/shared';
 
 export class EditExpense extends React.Component {
   constructor(props) {
@@ -27,9 +28,11 @@ export class EditExpense extends React.Component {
   // Remove the entry from the database, and navigate to the /events page
   handleRemove = (e) => {
     e.preventDefault();
-    const { expenseid, id } = this.props.params;
-    api.removeExpense(id, expenseid);
-    window.location = `#/events/${id}`;
+    if (shared.confirmDeleteExpense() === true) {
+      const { expenseid, id } = this.props.params;
+      api.removeExpense(id, expenseid);
+      window.location = `#/events/${id}`;
+    }
   }
 
   // This function clears out the entry that was stored in Redux
