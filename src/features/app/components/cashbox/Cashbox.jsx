@@ -15,7 +15,7 @@ export const Cashbox = props => (
         <tr>
           <td>${props.cash}</td>
           <td>${props.endingCash}</td>
-          <td>${props.net}</td>
+          <td className="td-2">${props.net}</td>
         </tr>
       </tbody>
     </table>

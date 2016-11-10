@@ -10,6 +10,11 @@
   width: 150px;
 }
 
+.td-1, .td-2 {
+  width: 100px;
+}
+
+
 .edit {
   font-size: 1em;
   margin: 10px 0 20px 0;
@@ -30,6 +35,9 @@
   .custom-button {
     width: 40px;
     height: 40px;
+  }
+  .td-1, .td-2 {
+    width: 50px;
   }
   .edit {
     margin: -20px 0 10px 0;

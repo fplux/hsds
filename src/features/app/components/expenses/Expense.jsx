@@ -30,7 +30,7 @@ export class Expense extends React.Component {
             onChange={() => this.changeCheckBox(expenseId)}
           />
         </td>
-        <td>${cost}</td>
+        <td className="td-2">${cost}</td>
       </tr>
     );
   }

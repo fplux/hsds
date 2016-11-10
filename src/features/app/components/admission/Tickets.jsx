@@ -35,8 +35,8 @@ export class Tickets extends React.Component {
           ><i className="fi-minus" />
           </button>
         </td>
-        <td>{this.props.count}</td>
-        <td>${this.props.price * this.props.count}</td>
+        <td className="td-1">{this.props.count}</td>
+        <td className="td-2">${this.props.price * this.props.count}</td>
       </tr>
     );
   }
