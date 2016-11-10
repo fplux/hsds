@@ -353,9 +353,9 @@ export function updateExpenses(eventId) {
             }
 
             // define variables if there is a percentage on the expense
-            newBandExpense = tempCostBand - bandAdmin;
-            newVenueExpense = tempCostVenue - venueAdmin;
-            newAdminFee = bandAdmin + venueAdmin;
+            newBandExpense = Math.round(tempCostBand - bandAdmin);
+            newVenueExpense = Math.round(tempCostVenue - venueAdmin);
+            newAdminFee = Math.round(bandAdmin + venueAdmin);
           }
         } else {
           newAdminFee = 0;
