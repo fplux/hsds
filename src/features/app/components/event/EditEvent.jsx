@@ -97,7 +97,7 @@ export class EditEvent extends React.Component {
                 <label htmlFor="percent">Cash</label>
                 <input className="form-control" type="text" name="percent" ref={(ref) => { this.cash = ref; }} defaultValue={cash} />
                 <button onClick={e => this.handleSubmit(e)} className="btn btn-primary custom-buttons">Submit</button>
-                <Link to={`events/${id}`}><button className="custom-buttons button">Cancel</button></Link>
+                <Link to={`events/${id}`}><button className="btn btn-primary custom-buttons">Cancel</button></Link>
                 <button onClick={e => this.handleRemove(e)} className="btn btn-danger custom-buttons">Remove</button>
                 <br />
                 {errorMessage()}
