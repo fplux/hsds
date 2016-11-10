@@ -68,9 +68,10 @@ export function fetchEvents() {
         pastEvents[event] = events[event];
       }
     }
-    const direction = 'ascending';
-    const eventsObject = orderEvents(eventsList, direction);
-    const pastEventsObject = orderEvents(pastEvents, direction);
+    const ascending = 'ascending';
+    const descending = 'descending';
+    const eventsObject = orderEvents(eventsList, ascending);
+    const pastEventsObject = orderEvents(pastEvents, descending);
 
     store.dispatch(actions.fetchEvents(eventsObject));
     store.dispatch(actions.fetchPastEvents(pastEventsObject));
