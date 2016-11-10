@@ -24,6 +24,7 @@ export { AddExpense } from './expenses//AddExpense';
 export { Expense } from './expenses/Expense';
 
 export { ReportsContainer } from './reports/ReportsContainer';
+export { YearReportContainer } from './reports/YearReportContainer';
 
 // export { AdminFee } from './AdminFee';
 // export { Admission } from './Admission';

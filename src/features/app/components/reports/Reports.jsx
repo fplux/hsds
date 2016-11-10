@@ -6,7 +6,7 @@ const Loading = require('react-loading-animation');
 
 export class Reports extends React.Component {
   componentDidMount() {
-    api.fetchPastEvents();
+    api.fetchEvents();
   }
   render() {
     const renderEvents = () => {

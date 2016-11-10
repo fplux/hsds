@@ -23,7 +23,7 @@ module.exports = {
     ],
     vendor: [
       'script!jquery/dist/jquery.min.js',
-      'script!foundation-sites/dist/foundation.min.js',
+      'script!bootstrap/dist/js/bootstrap.min.js',
       './src/vendor.js',
     ],
   },

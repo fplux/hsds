@@ -46,23 +46,25 @@ export class EditExpense extends React.Component {
         const { type, cost, notes, paid, percent } = this.props.expense;
         return (
           <div className="form-container">
-            <button onClick={e => this.handleCancel(e)} className="button">Back to Event</button>
+            <button onClick={e => this.handleCancel(e)} className="btn btn-primary custom-buttons">Back to Event</button>
             <h2 className="text-center page-header">Modify Expense</h2>
-            <form className="custom-form">
-              <label htmlFor="type">Type</label>
-              <input type="text" name="type" ref={(ref) => { this.type = ref; }} defaultValue={type} />
-              <label htmlFor="notes">Notes</label>
-              <input type="text" name="notes" ref={(ref) => { this.notes = ref; }} defaultValue={notes} />
-              <label htmlFor="cost">Cost</label>
-              <input type="text" name="cost" ref={(ref) => { this.cost = ref; }} defaultValue={cost} />
-              <label htmlFor="percent">Percent</label>
-              <input type="text" name="percent" ref={(ref) => { this.percent = ref; }} defaultValue={percent} />
-              <label htmlFor="paid">Paid</label>
-              <input type="checkbox" name="paid" ref={(ref) => { this.paid = ref; }} defaultChecked={paid} /><br />
-              <button onClick={this.handleSubmit} className="custom-buttons button">Save</button>
-              <button onClick={this.handleCancel} className="custom-buttons button">Cancel</button>
-              <button onClick={this.handleRemove} className="custom-buttons button alert">Remove</button>
-            </form>
+            <div className="form-group">
+              <form>
+                <label htmlFor="type">Type</label>
+                <input className="form-control" type="text" name="type" ref={(ref) => { this.type = ref; }} defaultValue={type} />
+                <label htmlFor="notes">Notes</label>
+                <input className="form-control" type="text" name="notes" ref={(ref) => { this.notes = ref; }} defaultValue={notes} />
+                <label htmlFor="cost">Cost</label>
+                <input className="form-control" type="text" name="cost" ref={(ref) => { this.cost = ref; }} defaultValue={cost} />
+                <label htmlFor="percent">Percent</label>
+                <input className="form-control" type="text" name="percent" ref={(ref) => { this.percent = ref; }} defaultValue={percent} />
+                <label htmlFor="paid">Paid</label>
+                <input className="form-control" type="checkbox" name="paid" ref={(ref) => { this.paid = ref; }} defaultChecked={paid} /><br />
+                <button onClick={this.handleSubmit} className="btn btn-primary custom-buttons">Save</button>
+                <button onClick={this.handleCancel} className="btn btn-primary custom-buttons">Cancel</button>
+                <button onClick={this.handleRemove} className="btn btn-danger custom-buttons">Remove</button>
+              </form>
+            </div>
           </div>
         );
       }
@@ -81,4 +83,12 @@ EditExpense.propTypes = {
     expenseid: React.PropTypes.string,
   }),
   dispatch: React.PropTypes.func,
+  expense: React.PropTypes.shape({
+    type: React.PropTypes.string,
+    cost: React.PropTypes.number,
+    notes: React.PropTypes.string,
+    paid: React.PropTypes.bool,
+    percent: React.PropTypes.string,
+    loading: React.PropTypes.bool,
+  }),
 };

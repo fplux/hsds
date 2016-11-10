@@ -56,11 +56,16 @@ export function orderEvents(events, direction) {
 /* Fetch Events from firebase and set them to the redux store */
 export function fetchEvents() {
   const currentDate = moment().subtract(1, 'days').format('L');
+  const eventsList = {};
+  const pastEvents = {};
+  const years = [];
   eventsRef.orderByChild('date').on('value', (snapshot) => {
     const events = snapshot.val();
-    const eventsList = {};
-    const pastEvents = {};
     for (event in events) {
+      const year = events[event].date.split('/')[2];
+      if (years.indexOf(year) === -1) {
+        years.push(year);
+      }
       const i = events[event];
       if (new Date(i.date).getTime() > new Date(currentDate).getTime()) {
         eventsList[event] = events[event];
@@ -73,8 +78,28 @@ export function fetchEvents() {
     const eventsObject = orderEvents(eventsList, ascending);
     const pastEventsObject = orderEvents(pastEvents, descending);
 
+    store.dispatch(actions.setYears(years));
     store.dispatch(actions.fetchEvents(eventsObject));
     store.dispatch(actions.fetchPastEvents(pastEventsObject));
+  });
+  return pastEvents;
+}
+
+/* Fetch Events from firebase and set them to the redux store */
+export function fetchEventsForYear(year) {
+  const pastEvents = this.fetchEvents();
+  const startDate = new Date(`01/01/${year}`).getTime();
+  const endDate = new Date(`12/31/${year}`).getTime();
+
+  const pastEventsArr = {};
+  Object.keys(pastEvents).map((event) => {
+    const i = pastEvents[event];
+    const eventDate = new Date(i.date).getTime();
+
+    if (startDate < eventDate && eventDate < endDate) {
+      pastEventsArr[event] = pastEvents[event];
+    }
+    store.dispatch(actions.fetchPastEvents(pastEventsArr));
   });
 }
 

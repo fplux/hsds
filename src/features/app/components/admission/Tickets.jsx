@@ -15,14 +15,14 @@ export class Tickets extends React.Component {
   render() {
     const { eventId, typeId } = this.props;
     return (
-      <tr>
+      <tr className="ticket-detail">
         <td><Link onClick={e => this.handleClick(e)} to={`events/${eventId}/editticket/${typeId}`}>{this.props.type}</Link></td>
         <td>${this.props.price}</td>
         <td>
           <button
             disabled={this.props.disabled}
             onClick={() => this.handleModifyTicket('add')}
-            className="button success large custom-button"
+            className="btn btn-success custom-button"
           >
             <i className="fi-plus" />
           </button>
@@ -31,7 +31,7 @@ export class Tickets extends React.Component {
           <button
             disabled={this.props.count === 0 || this.props.disabled}
             onClick={() => this.handleModifyTicket('remove')}
-            className="button alert large custom-button"
+            className="btn btn-danger custom-button"
           ><i className="fi-minus" />
           </button>
         </td>

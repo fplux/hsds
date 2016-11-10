@@ -15,5 +15,5 @@ export const AdminFee = props => (
 );
 
 AdminFee.propTypes = {
-  fee: React.PropTypes.string,
+  fee: React.PropTypes.number,
 };

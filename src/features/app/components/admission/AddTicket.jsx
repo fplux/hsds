@@ -64,17 +64,19 @@ export class AddTicket extends React.Component {
     const { id } = this.props.params;
     return (
       <div className="form-container">
-        <Link to={`events/${id}`}><button className="button">Back to Event</button></Link>
+        <Link to={`events/${id}`}><button className="btn btn-primary custom-buttons">Back to Event</button></Link>
         <div className="row">
-          <div className="large-6 column">
+          <div className="col-md-6">
             <h3 className="text-center">Add New Ticket</h3>
-            <form className="custom-form">
-              <input type="text" ref={(ref) => { this.type = ref; }} placeholder="Ticket Type" autoFocus />
-              <input type="text" ref={(ref) => { this.price = ref; }} placeholder="Price" />
-              <button className="button success expanded" onClick={e => this.handleSubmit(e)}>Submit</button>
-            </form>
+            <div className="form-group">
+              <form className="custom-form">
+                <input className="form-control" type="text" ref={(ref) => { this.type = ref; }} placeholder="Ticket Type" autoFocus />
+                <input className="form-control" type="text" ref={(ref) => { this.price = ref; }} placeholder="Price" />
+                <button className="btn btn-primary custom-buttons" onClick={e => this.handleSubmit(e)}>Submit</button>
+              </form>
+            </div>
           </div>
-          <div className="large-5 column quick-add">
+          <div className="col-md-6 quick-add">
             <h3 className="text-center">Quick Add</h3>
             {renderCommonTickets()}
             <p className="success-message">{this.state.successMessage}</p>

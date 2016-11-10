@@ -1,11 +1,11 @@
 import React from 'react';
-import { Nav } from '../nav/Nav';
+import { NavContainer } from '../nav/NavContainer';
 import '../../../../styles/index.scss';
 
 export const App = (props) => {
   return (
     <div>
-      <Nav />
+      <NavContainer />
       <div className="main-container">
         {props.children}
       </div>

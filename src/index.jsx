@@ -30,7 +30,8 @@ const {
   AddExpense,
   AddEvent,
   PastEventsContainer,
-  ReportsContainer } = app.components;
+  ReportsContainer,
+  YearReportContainer } = app.components;
 
 ReactDOM.render(
   <Provider store={store}>
@@ -41,6 +42,7 @@ ReactDOM.render(
         <Route path="/past" component={PastEventsContainer} />
         <Route path="/new" component={AddEvent} />
         <Route path="/reports" component={ReportsContainer} />
+        <Route path="/reports/:year" component={YearReportContainer} />
         <Route path="events/:id" component={EventDetailContainer} />
         <Route path="events/:id/addticket" component={AddTicketContainer} />
         <Route path="events/:id/addexpense" component={AddExpense} />

@@ -14,12 +14,12 @@ export class EventBox extends React.Component {
       <div className="event-box">
         <Link to={`events/${eventKey}`} className="event-box-link">
           <div className="row">
-            <div className="large-6 columns">
+            <div className="col-md-6">
               <p className="event-name"><strong>{name}</strong></p>
               <p><strong>Date:</strong> {date}</p>
               <p><strong>Time: </strong> {time}</p>
             </div>
-            <div className="large-6 columns">
+            <div className="col-md-6">
               <p><strong>Revenue:</strong> ${totalRevenue}</p>
               <p><strong>Expenses:</strong>${totalExpenses}</p>
               <p><strong>Net:</strong> ${net}</p>

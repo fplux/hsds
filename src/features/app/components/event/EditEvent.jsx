@@ -72,34 +72,37 @@ export class EditEvent extends React.Component {
         const { id } = this.props.params;
         return (
           <div className="form-container">
-            <Link to={`events/${id}`}><button className="button">Back to Event</button></Link>
+            <Link to={`events/${id}`}><button className="btn btn-primary custom-buttons">Back to Event</button></Link>
             <h1 className="text-center">Modify Event</h1>
-            <form className="custom-form">
-              <label htmlFor="type">Name</label>
-              <input type="text" name="type" ref={(ref) => { this.name = ref; }} defaultValue={name} />
-              <label htmlFor="date">Date</label>
-              <DatePicker
-                name="date"
-                selected={this.state.startDate}
-                onChange={newDate => this.handleChange(newDate)}
-                placeholder="Select a date"
-              />
-              <label htmlFor="cost">Time</label>
-              <input type="text" name="cost" ref={(ref) => { this.time = ref; }} defaultValue={time} />
-              <label htmlFor="percent">Fee</label>
-              <input type="text" name="percent" ref={(ref) => { this.fee = ref; }} defaultValue={fee} />
-              <label htmlFor="percent">Max Fee</label>
-              <input type="text" name="percent" ref={(ref) => { this.max_fee = ref; }} defaultValue={max_fee} />
-              <label htmlFor="percent">Band Minimum</label>
-              <input type="text" name="percent" ref={(ref) => { this.band_minimum = ref; }} defaultValue={band_minimum} />
-              <label htmlFor="percent">Cash</label>
-              <input type="text" name="percent" ref={(ref) => { this.cash = ref; }} defaultValue={cash} />
-              <button onClick={e => this.handleSubmit(e)} className="custom-buttons button">Submit</button>
-              <Link to={`events/${id}`}><button className="custom-buttons button">Cancel</button></Link>
-              <button onClick={e => this.handleRemove(e)} className="custom-buttons button alert">Remove</button>
-              <br />
-              {errorMessage()}
-            </form>
+            <div className="form-group">
+              <form>
+                <label htmlFor="type">Name</label>
+                <input className="form-control" type="text" name="type" ref={(ref) => { this.name = ref; }} defaultValue={name} />
+                <label htmlFor="date">Date</label>
+                <br />
+                <DatePicker
+                  name="date"
+                  selected={this.state.startDate}
+                  onChange={newDate => this.handleChange(newDate)}
+                  placeholder="Select a date"
+                /><br />
+                <label htmlFor="cost">Time</label>
+                <input className="form-control" type="text" name="cost" ref={(ref) => { this.time = ref; }} defaultValue={time} />
+                <label htmlFor="percent">Fee</label>
+                <input className="form-control" type="text" name="percent" ref={(ref) => { this.fee = ref; }} defaultValue={fee} />
+                <label htmlFor="percent">Max Fee</label>
+                <input className="form-control" type="text" name="percent" ref={(ref) => { this.max_fee = ref; }} defaultValue={max_fee} />
+                <label htmlFor="percent">Band Minimum</label>
+                <input className="form-control" type="text" name="percent" ref={(ref) => { this.band_minimum = ref; }} defaultValue={band_minimum} />
+                <label htmlFor="percent">Cash</label>
+                <input className="form-control" type="text" name="percent" ref={(ref) => { this.cash = ref; }} defaultValue={cash} />
+                <button onClick={e => this.handleSubmit(e)} className="btn btn-primary custom-buttons">Submit</button>
+                <Link to={`events/${id}`}><button className="custom-buttons button">Cancel</button></Link>
+                <button onClick={e => this.handleRemove(e)} className="btn btn-danger custom-buttons">Remove</button>
+                <br />
+                {errorMessage()}
+              </form>
+            </div>
           </div>
         );
       }

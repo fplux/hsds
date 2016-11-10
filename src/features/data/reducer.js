@@ -58,6 +58,25 @@ export const pastEvents = (state = [], action) => {
   }
 };
 
+export const years = (state = [], action) => {
+  switch (action.type) {
+    case 'GET_YEARS':
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'RECEIVED_YEARS':
+      return {
+        years: {
+          ...action.years,
+        },
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
 export const expense = (state = [], action) => {
   switch (action.type) {
     case 'START_FETCHING_EXPENSE':
@@ -119,6 +138,7 @@ export const common = (state = [], action) => {
 export default combineReducers({
   events,
   event,
+  years,
   ticket,
   expense,
   common,

@@ -8,6 +8,16 @@ export function fetchEvents(events) {
   };
 }
 
+export function setYears(years) {
+  return function (dispatch) { // eslint-disable-line
+    dispatch({ type: 'GET_YEARS' });
+    dispatch({
+      type: 'RECEIVED_YEARS',
+      years,
+    });
+  };
+}
+
 export function fetchPastEvents(events) {
   return function (dispatch) { //eslint-disable-line
     dispatch({ type: 'START_FETCHING_PAST_EVENTS' });

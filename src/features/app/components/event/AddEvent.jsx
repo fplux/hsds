@@ -44,31 +44,33 @@ export class AddEvent extends React.Component {
     return (
       <div className="form-container">
         <h1 className="text-center page-header">Add Event</h1>
-        <form className="custom-form">
-          <label htmlFor="type">Name</label>
-          <input type="text" name="type" ref={(ref) => { this.name = ref; }} />
-          <label htmlFor="date">Date</label>
-          <DatePicker
-            name="date"
-            selected={this.state.startDate}
-            onChange={newDate => this.handleChange(newDate)}
-          />
-          <label htmlFor="cost">Time</label>
-          <input type="text" name="cost" ref={(ref) => { this.time = ref; }} />
-          <label htmlFor="fee">Fee</label>
-          <input type="text" name="fee" ref={(ref) => { this.fee = ref; }} defaultValue="0" />
-          <label htmlFor="max_fee">Max Fee</label>
-          <input type="text" name="max_fee" ref={(ref) => { this.max_fee = ref; }} defaultValue="0" />
-          <label htmlFor="band_minimum">Band Minimum</label>
-          <input type="text" name="band_minimum" ref={(ref) => { this.band_minimum = ref; }} defaultValue="0" />
-          <label htmlFor="cash">Cash</label>
-          <input type="text" name="cash" ref={(ref) => { this.cash = ref; }} defaultValue="0" />
-          <button onClick={e => this.handleSubmit(e)} className="custom-buttons button">Submit</button>
-          <Link to="events"><button className="custom-buttons button alert">Cancel</button></Link>
-          <br />
-          {errorMessage()}
-          {this.state.errorMessage}
-        </form>
+        <div className="form-group">
+          <form>
+            <label htmlFor="type">Name</label>
+            <input className="form-control"type="text" name="type" ref={(ref) => { this.name = ref; }} />
+            <label htmlFor="date">Date</label><br />
+            <DatePicker
+              name="date"
+              selected={this.state.startDate}
+              onChange={newDate => this.handleChange(newDate)}
+            /><br />
+            <label htmlFor="cost">Time</label>
+            <input className="form-control" type="text" name="cost" ref={(ref) => { this.time = ref; }} />
+            <label htmlFor="fee">Fee</label>
+            <input className="form-control" type="text" name="fee" ref={(ref) => { this.fee = ref; }} defaultValue="0" />
+            <label htmlFor="max_fee">Max Fee</label>
+            <input className="form-control" type="text" name="max_fee" ref={(ref) => { this.max_fee = ref; }} defaultValue="0" />
+            <label htmlFor="band_minimum">Band Minimum</label>
+            <input className="form-control" type="text" name="band_minimum" ref={(ref) => { this.band_minimum = ref; }} defaultValue="0" />
+            <label htmlFor="cash">Cash</label>
+            <input className="form-control" type="text" name="cash" ref={(ref) => { this.cash = ref; }} defaultValue="0" />
+            <button onClick={e => this.handleSubmit(e)} className="custom-buttons btn btn-primary">Submit</button>
+            <Link to="events"><button className="custom-buttons btn btn-danger">Cancel</button></Link>
+            <br />
+            {errorMessage()}
+            {this.state.errorMessage}
+          </form>
+        </div>
       </div>
     );
   }

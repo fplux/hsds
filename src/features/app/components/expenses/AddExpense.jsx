@@ -51,7 +51,7 @@ export class AddExpense extends React.Component {
     if (this.cost.value !== '') { this.setState({ percentDisabled: true }); }
     if (this.cost.value === '') { this.setState({ percentDisabled: false }); }
   }
-  handleCancel(e) {
+  handleCancel = (e) => {
     e.preventDefault();
     const { id } = this.props.params;
     window.location = `#/events/${id}`;
@@ -64,25 +64,27 @@ export class AddExpense extends React.Component {
     const { id } = this.props.params;
     return (
       <div className="form-container">
-        <button onClick={e => this.handleCancel(e)} className="button">Back to Event</button>
+        <button onClick={this.handleCancel} className="btn btn-primary custom-buttons">Back to Event</button>
         <h1 className="text-center">Create New Expense</h1>
-        <form className="custom-form">
-          <select ref={(ref) => { this.type = ref; }} autoFocus>
-            <option value="Band">Band</option>
-            <option value="Venue">Venue</option>
-            <option value="Teacher">Teacher</option>
-            <option value="DJ">DJ</option>
-            <option value="Other">Other</option>
-          </select>
-          <input type="text" ref={(ref) => { this.notes = ref; }} placeholder="Notes..." />
-          <input type="text" ref={(ref) => { this.percent = ref; }} disabled={this.state.percentDisabled} onChange={() => this.handleChange()} placeholder="Percent..." />
-          <input type="text" ref={(ref) => { this.cost = ref; }} disabled={this.state.costDisabled} onChange={() => this.handleChange()} placeholder="Cost..." />
-          <button className="custom-buttons button" onClick={() => this.handleSubmit(submit)} type="button">Save</button>
-          <button className="custom-buttons button" onClick={() => this.handleSubmit(addAnother)} type="button">Save and Add</button>
-          <button className="custom-buttons button alert" onClick={e => this.handleCancel(e)}>Cancel</button>
-          <br />
-          {message}
-        </form>
+        <div className="form-group">
+          <form className="custom-form">
+            <select className="form-control" ref={(ref) => { this.type = ref; }} autoFocus>
+              <option value="Band">Band</option>
+              <option value="Venue">Venue</option>
+              <option value="Teacher">Teacher</option>
+              <option value="DJ">DJ</option>
+              <option value="Other">Other</option>
+            </select>
+            <input className="form-control" type="text" ref={(ref) => { this.notes = ref; }} placeholder="Notes..." />
+            <input className="form-control" type="text" ref={(ref) => { this.percent = ref; }} disabled={this.state.percentDisabled} onChange={() => this.handleChange()} placeholder="Percent..." />
+            <input className="form-control" type="text" ref={(ref) => { this.cost = ref; }} disabled={this.state.costDisabled} onChange={() => this.handleChange()} placeholder="Cost..." />
+            <button className="btn btn-primary custom-buttons" onClick={() => this.handleSubmit(submit)} type="button">Save</button>
+            <button className="btn btn-primary custom-buttons" onClick={() => this.handleSubmit(addAnother)} type="button">Save and Add</button>
+            <button className="btn btn-danger custom-buttons" onClick={this.handleCancel}>Cancel</button>
+            <br />
+            {message}
+          </form>
+        </div>
       </div>
     );
   }
