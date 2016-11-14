@@ -15,7 +15,6 @@ export class YearReport extends React.Component {
     }
   }
   render() {
-    console.log(this.props);
     const renderEvents = () => {
       if (this.props.loading === false) {
         const { events } = this.props;
