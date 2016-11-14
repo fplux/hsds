@@ -88,8 +88,8 @@ export function calculateData() {
     income += i.totalRevenue;
     count += i.totalCount;
   });
-  const avgBandCost = (bandExpenses / countWithBands).toFixed(1);
-  const avgVenueCost = (venueExpenses / countWithVenues).toFixed(1);
+  const avgBandCost = (bandExpenses / countWithBands).toFixed(2);
+  const avgVenueCost = (venueExpenses / countWithVenues).toFixed(2);
   const avgEvent = Math.round(count / numEvents);
   revper = (income / count).toFixed(2); // calculate the revenue per person for the year
   store.dispatch(actions.setData(net,
