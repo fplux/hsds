@@ -26,6 +26,8 @@ export { Expense } from './expenses/Expense';
 export { ReportsContainer } from './reports/ReportsContainer';
 export { YearReportContainer } from './reports/YearReportContainer';
 
+export { DashboardContainer } from './dashboard/DashboardContainer';
+
 // export { AdminFee } from './AdminFee';
 // export { Admission } from './Admission';
 // export { Cashbox } from './Cashbox';

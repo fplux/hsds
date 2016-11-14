@@ -1,14 +1,9 @@
 import React from 'react';
 import { EventBox } from './EventBox';
-import * as api from '../../../data/api';
 
 const Loading = require('react-loading-animation');
 
 export class PastEvents extends React.Component {
-  constructor() {
-    super();
-    api.fetchEvents();
-  }
   render() {
     const renderEvents = () => {
       switch (this.props.loading) {

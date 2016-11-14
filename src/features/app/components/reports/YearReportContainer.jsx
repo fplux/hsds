@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import { YearReport } from './YearReport';
 
 const mapStateToProps = state => ({
-  events: state.data.pastEvents.events,
-  loading: state.data.pastEvents.loading,
+  loading: state.data.yearEvents.loading,
+  events: state.data.yearEvents.events,
 });
 
 export const YearReportContainer = connect(mapStateToProps)(YearReport);

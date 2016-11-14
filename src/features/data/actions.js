@@ -1,8 +1,47 @@
-export function fetchEvents(events) {
-  return function (dispatch) { //eslint-disable-line
+export const START_FETCHING_EVENTS = 'START_FETCHING_EVENTS';
+export const RECEIVED_EVENTS = 'RECEIVED_EVENTS';
+export const INITIALIZED = 'INITIALIZED';
+
+export const initialized = () => ({
+  type: INITIALIZED,
+});
+
+// export function fetchEvents(events) {
+//   return function (dispatch) { //eslint-disable-line
+//     dispatch({ type: 'START_FETCHING_EVENTS' });
+//     dispatch({
+//       type: 'RECEIVED_EVENTS',
+//       events,
+//     });
+//   };
+// }
+
+export function eventsReceived(events) {
+  return function (dispatch) { // eslint-disable-line
     dispatch({ type: 'START_FETCHING_EVENTS' });
     dispatch({
       type: 'RECEIVED_EVENTS',
+      events,
+    });
+  };
+}
+
+
+export const pastEventsReceived = events => ({
+  type: 'RECEIVED_PAST_EVENTS',
+  events,
+});
+
+export const futureEventsReceived = events => ({
+  type: 'RECEIVED_FUTURE_EVENTS',
+  events,
+});
+
+export function fetchEventsForYear(events) {
+  return function (dispatch) { // eslint-disable-line
+    dispatch({ type: 'START_SETTING_YEAR_EVENTS' });
+    dispatch({
+      type: 'RECEIVED_YEAR_EVENTS',
       events,
     });
   };
@@ -81,3 +120,19 @@ export const clearExpense = () => ({
 export const clearEvent = () => ({
   type: 'CLEAR_EVENT',
 });
+
+
+export function setData(net, income, expenses, count, revper, avgEvent) {
+  return function (dispatch) { // eslint-disable-line
+    dispatch({ type: 'START_SETTING_DATA' });
+    dispatch({
+      type: 'SET_DATA',
+      net,
+      income,
+      expenses,
+      revper,
+      count,
+      avgEvent,
+    });
+  };
+}

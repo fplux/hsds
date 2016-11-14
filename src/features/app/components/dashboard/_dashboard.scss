@@ -1,0 +1,42 @@
+.dashboard-container {
+  display: inline-flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.summary {
+  margin: 0 40px;
+  height: 250px;
+  width: 200px;
+  border: 1px solid black;
+
+  .header {
+    background: #373737;
+    padding: 0;
+    margin: 0;
+    color: white;
+
+    h3 {
+      text-align: center;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  .income, .expenses, .net {
+    h4, p{
+      text-align: center;
+    }
+    height: 64px;
+    border-bottom: 1px solid black;
+  }
+}
+
+@media (max-width: 600px) {
+  .summary {
+    margin-bottom: 30px;
+    width: 90%;
+  }
+}

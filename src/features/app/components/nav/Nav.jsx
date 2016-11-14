@@ -3,8 +3,7 @@ import { Link, IndexLink } from 'react-router';
 import { Years } from './Years';
 
 export class Nav extends React.Component {
-  closeMenu = (e) => {
-    console.log(e.currentTarget);
+  closeMenu = () => {
     if (window.innerWidth < 600) {
       document.getElementById('nav-toggle').click();
     }
@@ -42,7 +41,11 @@ export class Nav extends React.Component {
           <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
               <li>
-                <IndexLink onClick={this.closeMenu} to="/" className="link" activeClassName="active" activeStyle={activeStyles}>Events</IndexLink>
+                <IndexLink onClick={this.closeMenu} to="/" className="link" activeClassName="active" activeStyle={activeStyles}>Dashboard</IndexLink>
+              </li>
+              <li className="nav-divider"> | </li>
+              <li>
+                <Link onClick={this.closeMenu} to="/events" className="link" activeClassName="active" activeStyle={activeStyles}>Events</Link>
               </li>
               <li className="nav-divider"> | </li>
               <li>
@@ -54,7 +57,7 @@ export class Nav extends React.Component {
               </li>
               <li className="nav-divider"> | </li>
               <li className="dropdown">
-                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span className="caret"></span></a>
+                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span className="caret" /></a>
                 <ul className="dropdown-menu">
                   <li>
                     <Link onClick={this.closeMenu} to="/reports" className="link" activeClassName="active" activeStyle={activeStyles}>All Events</Link>
@@ -69,3 +72,8 @@ export class Nav extends React.Component {
     );
   }
 }
+
+Nav.propTypes = {
+  loading: React.PropTypes.bool,
+  years: React.PropTypes.array,// eslint-disable-line
+};

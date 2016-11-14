@@ -1,27 +1,16 @@
 import React from 'react';
-import * as api from '../../../data/api';
 import { EventReport } from './EventReport';
 
-const Loading = require('react-loading-animation');
-
 export class Reports extends React.Component {
-  componentDidMount() {
-    api.fetchEvents();
-  }
   render() {
     const renderEvents = () => {
-      switch (this.props.loading) {
-        case false: {
-          const { events } = this.props;
-          return Object.keys(events).map(event => (
-            <EventReport key={event} eventId={event} {...events[event]} />
-          ));
-        }
-        default:
-          return (
-            <Loading />
-          );
+      if (this.props.loading === false) {
+        const { events } = this.props;
+        return Object.keys(events).map(event => (
+          <EventReport key={event} eventId={event} {...events[event]} />
+        ));
       }
+      return true;
     };
     const renderTotal = () => {
       if (this.props.loading === false) {
@@ -29,9 +18,11 @@ export class Reports extends React.Component {
         const netArray = [];
         Object.keys(events).map((event) => {
           netArray.push(events[event].net);
+          return netArray;
         });
         return netArray.reduce((a, b) => a + b);
       }
+      return true;
     };
     return (
       <div>

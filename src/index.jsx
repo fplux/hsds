@@ -5,6 +5,9 @@ import { Provider } from 'react-redux';
 import store from './store';
 import firebase from '../firebase';
 import app from './features/app';
+import * as actions from './features/data/actions';
+
+store.dispatch(actions.initialized());
 
 const requireLogin = (nextState, replace, next) => {
   if (!firebase.auth().currentUser) {
@@ -31,13 +34,14 @@ const {
   AddEvent,
   PastEventsContainer,
   ReportsContainer,
-  YearReportContainer } = app.components;
+  YearReportContainer,
+  DashboardContainer } = app.components;
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route path="/" component={App}>
-        <IndexRoute component={EventsListContainer} />
+        <IndexRoute component={DashboardContainer} />
         <Route path="/events" component={EventsListContainer} />
         <Route path="/past" component={PastEventsContainer} />
         <Route path="/new" component={AddEvent} />

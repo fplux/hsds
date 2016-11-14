@@ -9,9 +9,8 @@ export const events = (state = [], action) => {
       };
     case 'RECEIVED_EVENTS':
       return {
-        events: {
-          ...action.events,
-        },
+        ...state,
+        events: action.events,
         loading: false,
       };
     default:
@@ -39,6 +38,40 @@ export const event = (state = [], action) => {
   }
 };
 
+export const futureEvents = (state = [], action) => {
+  switch (action.type) {
+    case 'START_FETCHING_FUTURE_EVENTS':
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'RECEIVED_FUTURE_EVENTS':
+      return {
+        events: action.events,
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
+export const yearEvents = (state = [], action) => {
+  switch (action.type) {
+    case 'START_SETTING_YEAR_EVENTS':
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'RECEIVED_YEAR_EVENTS':
+      return {
+        events: action.events,
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
 export const pastEvents = (state = [], action) => {
   switch (action.type) {
     case 'START_FETCHING_PAST_EVENTS':
@@ -48,9 +81,7 @@ export const pastEvents = (state = [], action) => {
       };
     case 'RECEIVED_PAST_EVENTS':
       return {
-        events: {
-          ...action.events,
-        },
+        events: action.events,
         loading: false,
       };
     default:
@@ -67,9 +98,8 @@ export const years = (state = [], action) => {
       };
     case 'RECEIVED_YEARS':
       return {
-        years: {
-          ...action.years,
-        },
+        ...state,
+        years: action.years,
         loading: false,
       };
     default:
@@ -135,6 +165,29 @@ export const common = (state = [], action) => {
   }
 };
 
+export const data = (state = [], action) => {
+  switch (action.type) {
+    case 'START_SETTING_DATA':
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'SET_DATA':
+      return {
+        ...state,
+        loading: false,
+        net: action.net,
+        income: action.income,
+        expenses: action.expenses,
+        revper: action.revper,
+        count: action.count,
+        avgEvent: action.avgEvent,
+      };
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   events,
   event,
@@ -143,4 +196,7 @@ export default combineReducers({
   expense,
   common,
   pastEvents,
+  futureEvents,
+  yearEvents,
+  data,
 });
