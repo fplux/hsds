@@ -8,8 +8,13 @@ const mapStateToProps = state => ({
   revper: state.data.data.revper,
   count: state.data.data.count,
   avgEvent: state.data.data.avgEvent,
+  avgBandCost: state.data.data.avgBandCost,
+  avgVenueCost: state.data.data.avgVenueCost,
   loading: state.data.data.loading,
   pastEvents: state.data.pastEvents.events,
+  numEvents: state.data.data.numEvents,
+  hbnData: state.data.data.hbnData,
+  monthlyData: state.data.data.monthlyData,
 });
 
 export const DashboardContainer = connect(mapStateToProps)(Dashboard);

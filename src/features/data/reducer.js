@@ -177,11 +177,16 @@ export const data = (state = [], action) => {
         ...state,
         loading: false,
         net: action.net,
+        numEvents: action.numEvents,
         income: action.income,
         expenses: action.expenses,
         revper: action.revper,
         count: action.count,
         avgEvent: action.avgEvent,
+        avgBandCost: action.avgBandCost,
+        avgVenueCost: action.avgVenueCost,
+        hbnData: action.hbnData,
+        monthlyData: action.monthlyData,
       };
     default:
       return state;

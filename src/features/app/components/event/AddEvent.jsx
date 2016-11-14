@@ -22,6 +22,7 @@ export class AddEvent extends React.Component {
     e.preventDefault();
     const newEvent = {
       name: this.name.value,
+      type: this.type.value,
       date: this.state.startDate.format('L'),
       time: this.time.value,
       fee: this.fee.value,
@@ -48,6 +49,11 @@ export class AddEvent extends React.Component {
           <form>
             <label htmlFor="type">Name</label>
             <input className="form-control"type="text" name="type" ref={(ref) => { this.name = ref; }} />
+            <label htmlFor="type">Type</label>
+            <select className="form-control" ref={(ref) => { this.type = ref; }}>
+              <option value="hbn">Huntsville Bal Night</option>
+              <option value="monthly">Monthly Dance</option>
+            </select>
             <label htmlFor="date">Date</label><br />
             <DatePicker
               name="date"

@@ -122,7 +122,7 @@ export const clearEvent = () => ({
 });
 
 
-export function setData(net, income, expenses, count, revper, avgEvent) {
+export function setData(net, income, expenses, count, revper, avgEvent, avgBandCost, avgVenueCost, numEvents, hbnData, monthlyData) {
   return function (dispatch) { // eslint-disable-line
     dispatch({ type: 'START_SETTING_DATA' });
     dispatch({
@@ -133,6 +133,11 @@ export function setData(net, income, expenses, count, revper, avgEvent) {
       revper,
       count,
       avgEvent,
+      avgBandCost,
+      avgVenueCost,
+      numEvents,
+      hbnData,
+      monthlyData,
     });
   };
 }

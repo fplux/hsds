@@ -56,26 +56,88 @@ export function fetchPastEvents(events) {
 }
 
 export function calculateData() {
-  const events = store.getState().data.pastEvents.events; // define those events
-  fetchEventsForYear(currentYear); // fetch all the past events for the current year
-
+  const events = fetchEventsForYear(currentYear); // fetch all the past events for the current year
+  const hbnData = calculateHbnData(events);
+  const monthlyData = calculateMonthlyData(events);
   let net = 0;
   let income = 0;
   let expenses = 0;
   let count = 0;
   let revper = 0; // variable for revenue per admission
+  let bandExpenses = 0;
+  let venueExpenses = 0;
+  let countWithBands = 0;
+  let countWithVenues = 0;
+
   const numEvents = Object.keys(events).length;
   Object.keys(events).map((event) => {
     const i = events[event];
+    let e;
+    for (e in i.expenses) {
+      if (i.expenses[e].type === 'Band') {
+        bandExpenses += i.expenses[e].cost;
+        countWithBands += 1;
+      }
+      if (i.expenses[e].type === 'Venue') {
+        venueExpenses += i.expenses[e].cost;
+        countWithVenues += 1;
+      }
+    }
     net += i.net;
     expenses += i.totalExpenses;
     income += i.totalRevenue;
     count += i.totalCount;
   });
-
-  const avgEvent = (count / numEvents).toFixed(1);
+  const avgBandCost = (bandExpenses / countWithBands).toFixed(1);
+  const avgVenueCost = (venueExpenses / countWithVenues).toFixed(1);
+  const avgEvent = Math.round(count / numEvents);
   revper = (income / count).toFixed(2); // calculate the revenue per person for the year
-  store.dispatch(actions.setData(net, income, expenses, count, revper, avgEvent));
+  store.dispatch(actions.setData(net,
+    income,
+    expenses,
+    count,
+    revper,
+    avgEvent,
+    avgBandCost,
+    avgVenueCost,
+    numEvents,
+    hbnData,
+    monthlyData,
+  ));
+}
+
+export function calculateMonthlyData(events) {
+  const monthlyData = {
+    numEvents: 0,
+    count: 0,
+    avgAttendance: 0,
+  };
+  Object.keys(events).map((event) => {
+    const i = events[event];
+    if (i.type === 'monthly') {
+      monthlyData.numEvents += 1;
+      monthlyData.count += i.totalCount;
+      monthlyData.avgAttendance = Math.round(monthlyData.count / monthlyData.numEvents);
+    }
+  });
+  return monthlyData;
+}
+
+export function calculateHbnData(events) {
+  const hbnData = {
+    numEvents: 0,
+    count: 0,
+    avgAttendance: 0,
+  };
+  Object.keys(events).map((event) => {
+    const i = events[event];
+    if (i.type === 'hbn') {
+      hbnData.numEvents += 1;
+      hbnData.count += i.totalCount;
+      hbnData.avgAttendance = Math.round(hbnData.count / hbnData.numEvents);
+    }
+  });
+  return hbnData;
 }
 
 /* Fetch Events from firebase and set them to the redux store */

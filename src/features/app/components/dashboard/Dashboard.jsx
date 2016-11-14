@@ -2,6 +2,9 @@ import React from 'react';
 import moment from 'moment';
 import { YearlySummary } from './YearlySummary';
 import { Metrics } from './Metrics';
+import { Averages } from './Averages';
+import { HbnSummary } from './HbnSummary';
+import { MonthlySummary } from './MonthlySummary';
 
 const Loading = require('react-loading-animation');
 
@@ -17,8 +20,26 @@ export class Dashboard extends React.Component {
           <div>
             <h3 className="text-center page-header">Dashboard</h3>
             <div className="dashboard-container">
-              <YearlySummary year={year} {...this.props} />
-              <Metrics {...this.props} />
+              <div className="row">
+                <div className="col-md-4">
+                  <YearlySummary year={year} {...this.props} />
+                </div>
+                <div className="col-md-4">
+                  <Metrics {...this.props} />
+                </div>
+                <div className="col-md-4">
+                  <Averages {...this.props} />
+                </div>
+              </div>
+              <br /> <br />
+              <div className="row">
+                <div className="col-md-6">
+                  <HbnSummary {...this.props} />
+                </div>
+                <div className="col-md-6">
+                  <MonthlySummary {...this.props} />
+                </div>
+              </div>
             </div>
           </div>
         );
