@@ -18,10 +18,11 @@ const requireLogin = (nextState, replace, next) => {
 
 const redirectIfLoggedIn = (nextState, replace, next) => {
   if (firebase.auth().currentUser) {
-    replace('/edit');
+    replace('/');
   }
   next();
 };
+
 const {
   App,
   EventsListContainer,
@@ -35,13 +36,15 @@ const {
   PastEventsContainer,
   ReportsContainer,
   YearReportContainer,
-  DashboardContainer } = app.components;
+  DashboardContainer,
+  Login } = app.components;
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route path="/" component={App}>
         <IndexRoute component={DashboardContainer} />
+        <Route path="/login" component={Login} />
         <Route path="/events" component={EventsListContainer} />
         <Route path="/past" component={PastEventsContainer} />
         <Route path="/new" component={AddEvent} />

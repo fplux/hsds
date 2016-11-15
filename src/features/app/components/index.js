@@ -28,6 +28,8 @@ export { YearReportContainer } from './reports/YearReportContainer';
 
 export { DashboardContainer } from './dashboard/DashboardContainer';
 
+export { Login } from './login/Login';
+
 // export { AdminFee } from './AdminFee';
 // export { Admission } from './Admission';
 // export { Cashbox } from './Cashbox';

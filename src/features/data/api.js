@@ -1,11 +1,23 @@
 import moment from 'moment';
-import { firebaseRef } from '../../../firebase';
+import firebase, { firebaseRef } from '../../../firebase';
 import * as actions from '../data/actions';
 import store from '../../store';
 
 /* Firebase References */
 
 const eventsRef = firebaseRef.child('events');
+
+export function login(email, password) {
+  firebase.auth().signInWithEmailAndPassword(email, password).catch((err) => {
+    if (err) {
+
+    }
+  }).then((success) => {
+    if (success) {
+      window.location = '#/';
+    }
+  });
+}
 
 // Add Event
 export function addEvent(newEvent) {
@@ -280,14 +292,14 @@ export function updateExpenses(eventId) {
             const r = tempCostBand - event.band_minimum; // $30
             let bandAdmin;
             if (r > bandExpense.percent) {
-              bandAdmin = 70;
+              bandAdmin = parseInt(bandExpense.percent, 10);
             } else {
               bandAdmin = r;
             }
 
             let venueAdmin = Math.floor((bandAdmin / (bandExpense.percent / 100)) - bandAdmin);
             if (venueAdmin > venueExpense.percent) {
-              venueAdmin = 30;
+              venueAdmin = parseInt(venueExpense.percent, 10);
             }
 
             // define variables if there is a percentage on the expense

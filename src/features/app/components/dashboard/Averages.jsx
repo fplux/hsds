@@ -19,3 +19,9 @@ export const Averages = props => (
     </div>
   </div>
 );
+
+Averages.propTypes = {
+  avgBandCost: React.PropTypes.string,
+  avgVenueCost: React.PropTypes.string,
+  avgEvent: React.PropTypes.number,
+};
