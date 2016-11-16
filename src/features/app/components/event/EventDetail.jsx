@@ -48,10 +48,13 @@ export class EventDetail extends React.Component {
         const event = this.props.event[0];
         const eventId = this.props.params.id;
         let sortedExpenses;
+        let totalExpenses;
         if (event.expenses) {
           sortedExpenses = shared.orderExpenses(event.expenses);
+          totalExpenses = event.totalExpenses;
         } else {
           sortedExpenses = {};
+          totalExpenses = 0;
         }
         return (
           <div>
@@ -76,7 +79,7 @@ export class EventDetail extends React.Component {
               expenses={sortedExpenses}
               eventId={eventId}
               disabled={this.props.event.disabled}
-              totalExpenses={event.totalExpenses}
+              totalExpenses={totalExpenses}
             />
             <Cashbox cash={event.cash} endingCash={event.endingCash} net={event.net} />
           </div>
