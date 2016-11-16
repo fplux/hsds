@@ -218,6 +218,8 @@ export function removeExpense(eventId, expenseId) {
   const expenseRef = expensesRef.child(expenseId);
   expenseRef.remove();
 
+  store.dispatch(actions.clearExpense());
+
   updateTotals(eventId);
   updateExpenses(eventId);
   updateCash(eventId);
@@ -335,16 +337,22 @@ export function updateExpenses(eventId) {
       const totalExpenses = expensesTotal().reduce((a, b) => a + b);
 
       // ***** Set the expenses and event updates in the database and the store
-      expensesRef.child(bandExpenseId).update({
-        cost: newBandExpense,
-      });
-      expensesRef.child(venueExpenseId).update({
-        cost: newVenueExpense,
-      });
-      eventRef.update({
-        fee: newAdminFee,
-        totalExpenses,
-      });
+      if (newBandExpense) {
+        expensesRef.child(bandExpenseId).update({
+          cost: newBandExpense,
+        });
+      }
+      if (newVenueExpense) {
+        expensesRef.child(venueExpenseId).update({
+          cost: newVenueExpense,
+        });
+      }
+      if (newAdminFee) {
+        eventRef.update({
+          fee: newAdminFee,
+          totalExpenses,
+        });
+      }
     }
   }
 }
