@@ -66,11 +66,6 @@ module.exports = {
       },
     ],
   },
-  sassLoader: {
-    includePaths: [
-      path.resolve(__dirname, './node_modules/foundation-sites/scss'),
-    ],
-  },
   plugins: [
     new webpack.ProvidePlugin({
       $: 'jquery',
@@ -79,6 +74,7 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.CommonsChunkPlugin({
       name: ['app', 'vendor'],
+      minChunks: Infinity,
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',

@@ -5,6 +5,7 @@ import { Admission } from '../admission/Admission';
 import { Expenses } from '../expenses/Expenses';
 import { AdminFee } from '../adminfee/AdminFee';
 import { Cashbox } from '../cashbox/Cashbox';
+import * as shared from '../../../data/shared';
 
 const Loading = require('react-loading-animation');
 
@@ -46,6 +47,12 @@ export class EventDetail extends React.Component {
       if (this.props.event.loading === false) {
         const event = this.props.event[0];
         const eventId = this.props.params.id;
+        let sortedExpenses;
+        if (event.expenses) {
+          sortedExpenses = shared.orderExpenses(event.expenses);
+        } else {
+          sortedExpenses = {};
+        }
         return (
           <div>
             <h2 className="text-center page-header">
@@ -66,7 +73,7 @@ export class EventDetail extends React.Component {
             />
             {renderAdminFee()}
             <Expenses
-              expenses={event.expenses}
+              expenses={sortedExpenses}
               eventId={eventId}
               disabled={this.props.event.disabled}
               totalExpenses={event.totalExpenses}
