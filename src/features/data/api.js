@@ -1,6 +1,7 @@
 import moment from 'moment';
 import firebase, { firebaseRef } from '../../../firebase';
 import * as actions from '../data/actions';
+import * as helpers from '../data/helpers';
 import store from '../../store';
 
 /* Firebase References */
@@ -26,6 +27,7 @@ export function addEvent(newEvent) {
 
 export function deleteEvent(eventId) {
   eventsRef.child(eventId).remove();
+  helpers.fetchEvents();
 }
 
 /* Fetch event details given an ID parameter */
