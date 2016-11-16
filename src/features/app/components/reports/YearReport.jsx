@@ -51,7 +51,7 @@ export class YearReport extends React.Component {
             {renderEvents()}
             <tr>
               <td colSpan="2">Totals</td>
-              <td>{renderTotal()}</td>
+              <td>${renderTotal()}</td>
             </tr>
           </tbody>
         </table>
