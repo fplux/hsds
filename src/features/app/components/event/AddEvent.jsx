@@ -63,13 +63,13 @@ export class AddEvent extends React.Component {
             <label htmlFor="cost">Time</label>
             <input className="form-control" type="text" name="cost" ref={(ref) => { this.time = ref; }} />
             <label htmlFor="fee">Fee</label>
-            <input className="form-control" type="text" name="fee" ref={(ref) => { this.fee = ref; }} defaultValue="0" />
+            <input className="form-control" type="text" name="fee" ref={(ref) => { this.fee = ref; }} />
             <label htmlFor="max_fee">Max Fee</label>
-            <input className="form-control" type="text" name="max_fee" ref={(ref) => { this.max_fee = ref; }} defaultValue="0" />
+            <input className="form-control" type="text" name="max_fee" ref={(ref) => { this.max_fee = ref; }} />
             <label htmlFor="band_minimum">Band Minimum</label>
-            <input className="form-control" type="text" name="band_minimum" ref={(ref) => { this.band_minimum = ref; }} defaultValue="0" />
+            <input className="form-control" type="text" name="band_minimum" ref={(ref) => { this.band_minimum = ref; }} />
             <label htmlFor="cash">Cash</label>
-            <input className="form-control" type="text" name="cash" ref={(ref) => { this.cash = ref; }} defaultValue="0" />
+            <input className="form-control" type="text" name="cash" ref={(ref) => { this.cash = ref; }} />
             <button onClick={e => this.handleSubmit(e)} className="custom-buttons btn btn-primary">Submit</button>
             <Link to="events"><button className="custom-buttons btn btn-danger">Cancel</button></Link>
             <br />

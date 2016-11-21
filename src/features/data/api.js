@@ -169,7 +169,7 @@ export function updateCash(eventId) {
     for (let i = 0; i < parsedExpenses.length; i += 1) {
       totalExpenses += parsedExpenses[i].cost;
     }
-    const endingCash = (event.totalRevenue - totalExpenses) + event.cash;
+    const endingCash = Math.floor((event.totalRevenue - totalExpenses) + event.cash);
     const net = endingCash - event.cash;
     eventRef.update({
       totalExpenses,
@@ -279,47 +279,38 @@ export function updateExpenses(eventId) {
       let newBandExpense;
       let newVenueExpense;
       let newAdminFee;
-      newVenueExpense = (event.totalRevenue * parseInt(venueExpense.percent, 10)) / 100;
-      let venueMod = newVenueExpense % 1;
-      newBandExpense = (event.totalRevenue * (bandExpense.percent / 100)) + venueMod;
+      newVenueExpense = (event.totalRevenue * venueExpense.percent) / 100;
+      let venueMod = parseFloat((newVenueExpense % 1).toFixed(1), 10);
+      newVenueExpense -= venueMod;
+      newBandExpense = ((event.totalRevenue * bandExpense.percent) / 100) + venueMod; // eslint-disable-line
       if (event.totalRevenue > 0) {
         // If the band is making more than the minimum
-        if (event.fee <= 100 && newBandExpense > event.band_minimum) {
+        if (event.fee <= 100 && newBandExpense > event.band_minimum && event.fee !== '') {
           if (bandExpense.percent > 0 && venueExpense.percent > 0) {
-            let tempCostVenue = (event.totalRevenue * parseInt(venueExpense.percent, 10)) / 100;
-            venueMod = tempCostVenue % 1;
-            const multiplier = Math.pow(10, 2);
-            const result = Math.round(venueMod * multiplier) / multiplier;
-            venueMod = result;
-            tempCostVenue += venueMod; // set the new venue cost - the mod
-            const tempCostBand = (event.totalRevenue * (bandExpense.percent / 100)) + venueMod;
-            const r = tempCostBand - event.band_minimum; // $30
+            const r = newBandExpense - event.band_minimum; // $30
             let bandAdmin;
             if (r > bandExpense.percent) {
               bandAdmin = parseInt(bandExpense.percent, 10);
             } else {
               bandAdmin = r;
             }
-
-            let venueAdmin = Math.floor((bandAdmin / (bandExpense.percent / 100)) - bandAdmin);
+            let venueAdmin = parseInt(((bandAdmin / (bandExpense.percent / 100)) - bandAdmin).toFixed(1), 10);
             if (venueAdmin > venueExpense.percent) {
               venueAdmin = parseInt(venueExpense.percent, 10);
             }
 
+
             // define variables if there is a percentage on the expense
-            newBandExpense = Math.round(tempCostBand - bandAdmin);
-            newVenueExpense = Math.round(tempCostVenue - venueAdmin);
-            newAdminFee = Math.round(bandAdmin + venueAdmin);
+            newBandExpense -= bandAdmin;
+            newVenueExpense -= venueAdmin;
+            newAdminFee = bandAdmin + venueAdmin;
           }
         } else {
           newAdminFee = 0;
-          newVenueExpense = Math.round((event.totalRevenue * parseInt(venueExpense.percent, 10)) / 100); // eslint-disable-line
+          newVenueExpense = (event.totalRevenue * parseInt(venueExpense.percent, 10)) / 100; // eslint-disable-line
           venueMod = newVenueExpense % 1;
-          const multiplier = Math.pow(10, 2);
-          const result = Math.round(venueMod * multiplier) / multiplier;
-          venueMod = result;
           newVenueExpense -= venueMod;
-          newBandExpense = Math.round((event.totalRevenue * (bandExpense.percent / 100)));
+          newBandExpense = (event.totalRevenue * (bandExpense.percent / 100));
         }
         if (newAdminFee < 0) {
           newAdminFee = 0;
@@ -349,12 +340,10 @@ export function updateExpenses(eventId) {
           cost: newVenueExpense,
         });
       }
-      if (newAdminFee) {
-        eventRef.update({
-          fee: newAdminFee,
-          totalExpenses,
-        });
-      }
+      eventRef.update({
+        fee: newAdminFee,
+        totalExpenses,
+      });
     }
   }
 }

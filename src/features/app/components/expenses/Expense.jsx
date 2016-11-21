@@ -16,6 +16,7 @@ export class Expense extends React.Component {
   }
   render() {
     const { expenseId, type, notes, cost, percent, eventId, paid } = this.props;
+    const parsedCost = cost.toFixed(0);
     return (
       <tr>
         <td><Link onClick={e => this.handleClick(e)} to={`events/${eventId}/editexpense/${expenseId}`}>{type}</Link></td>
@@ -30,7 +31,7 @@ export class Expense extends React.Component {
             onChange={() => this.changeCheckBox(expenseId)}
           />
         </td>
-        <td className="td-2">${cost}</td>
+        <td className="td-2">${parsedCost}</td>
       </tr>
     );
   }

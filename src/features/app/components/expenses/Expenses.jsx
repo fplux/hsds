@@ -10,6 +10,8 @@ export class Expenses extends React.Component {
   }
   render() {
     const { expenses, eventId } = this.props;
+
+    /* Render the expenses into a table */
     const renderExpenses = () => {
       if (expenses !== undefined) {
         return Object.keys(expenses).map((expense) => {
@@ -27,6 +29,10 @@ export class Expenses extends React.Component {
       }
       return true;
     };
+    /* ************************************************ */
+
+    const { totalExpenses } = this.props;
+    const parsedTotal = totalExpenses.toFixed(0);
     return (
       <div>
         <h3 className="text-center table-header">Expenses</h3>
@@ -45,7 +51,7 @@ export class Expenses extends React.Component {
             {renderExpenses()}
             <tr>
               <td colSpan="4">Total</td>
-              <td>${this.props.totalExpenses}</td>
+              <td>${parsedTotal}</td>
             </tr>
           </tbody>
 
