@@ -13,7 +13,8 @@ const mapStateToProps = state => ({
   loading: state.data.data.loading,
   pastEvents: state.data.pastEvents.events,
   numEvents: state.data.data.numEvents,
-  hbnData: state.data.data.hbnData,
+  balData: state.data.data.balData,
+  bluesData: state.data.data.bluesData,
   monthlyData: state.data.data.monthlyData,
 });
 

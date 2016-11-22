@@ -57,7 +57,8 @@ export function fetchPastEvents(events) {
 
 export function calculateData() {
   const events = fetchEventsForYear(currentYear); // fetch all the past events for the current year
-  const hbnData = calculateHbnData(events);
+  const balData = calculateBalData(events);
+  const bluesData = calculateBluesData(events);
   const monthlyData = calculateMonthlyData(events);
   let net = 0;
   let income = 0;
@@ -92,7 +93,8 @@ export function calculateData() {
   const avgVenueCost = (venueExpenses / countWithVenues).toFixed(2);
   const avgEvent = Math.round(count / numEvents);
   revper = (income / count).toFixed(2); // calculate the revenue per person for the year
-  store.dispatch(actions.setData(net,
+  store.dispatch(actions.setData(
+    net,
     income,
     expenses,
     count,
@@ -101,7 +103,8 @@ export function calculateData() {
     avgBandCost,
     avgVenueCost,
     numEvents,
-    hbnData,
+    balData,
+    bluesData,
     monthlyData,
   ));
 }
@@ -123,21 +126,39 @@ export function calculateMonthlyData(events) {
   return monthlyData;
 }
 
-export function calculateHbnData(events) {
-  const hbnData = {
+export function calculateBalData(events) {
+  const balData = {
     numEvents: 0,
     count: 0,
     avgAttendance: 0,
   };
   Object.keys(events).map((event) => {
     const i = events[event];
-    if (i.type === 'hbn') {
-      hbnData.numEvents += 1;
-      hbnData.count += i.totalCount;
-      hbnData.avgAttendance = Math.round(hbnData.count / hbnData.numEvents);
+    if (i.type === 'bal') {
+      balData.numEvents += 1;
+      balData.count += i.totalCount;
+      balData.avgAttendance = Math.round(balData.count / balData.numEvents);
     }
   });
-  return hbnData;
+  return balData;
+}
+
+export function calculateBluesData(events) {
+  const bluesData = {
+    numEvents: 0,
+    count: 0,
+    avgAttendance: 0,
+  };
+  Object.keys(events).map((event) => {
+    const i = events[event];
+    console.log(i.type);
+    if (i.type === 'blues') {
+      bluesData.numEvents += 1;
+      bluesData.count += i.totalCount;
+      bluesData.avgAttendance = Math.round(bluesData.count / bluesData.numEvents);
+    }
+  });
+  return bluesData;
 }
 
 /* Fetch Events from firebase and set them to the redux store */

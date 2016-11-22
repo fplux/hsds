@@ -185,7 +185,8 @@ export const data = (state = [], action) => {
         avgEvent: action.avgEvent,
         avgBandCost: action.avgBandCost,
         avgVenueCost: action.avgVenueCost,
-        hbnData: action.hbnData,
+        balData: action.balData,
+        bluesData: action.bluesData,
         monthlyData: action.monthlyData,
       };
     default:

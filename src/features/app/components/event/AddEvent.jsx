@@ -51,7 +51,8 @@ export class AddEvent extends React.Component {
             <input className="form-control"type="text" name="type" ref={(ref) => { this.name = ref; }} />
             <label htmlFor="type">Type</label>
             <select className="form-control" ref={(ref) => { this.type = ref; }}>
-              <option value="hbn">Huntsville Bal Night</option>
+              <option value="bal">Huntsville Bal Night</option>
+              <option value="blues">Huntsville Blues Night</option>
               <option value="monthly">Monthly Dance</option>
             </select>
             <label htmlFor="date">Date</label><br />
