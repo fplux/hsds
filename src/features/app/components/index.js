@@ -9,7 +9,6 @@ export { EventBox } from './event/EventBox';
 export { EventDetail } from './event/EventDetail';
 export { EventDetailContainer } from './event/EventDetailContainer';
 export { EditEventContainer } from './event/EditEventContainer';
-export { PastEventsContainer } from './event/PastEventsContainer';
 
 /* Admission Details */
 

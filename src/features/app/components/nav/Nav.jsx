@@ -52,10 +52,6 @@ export class Nav extends React.Component {
                 <Link onClick={this.closeMenu} to="/new" className="link" activeClassName="active" activeStyle={activeStyles}>Add Event</Link>
               </li>
               <li className="nav-divider"> | </li>
-              <li>
-                <Link onClick={this.closeMenu} to="/past" className="link" activeClassName="active" activeStyle={activeStyles}>Past Events</Link>
-              </li>
-              <li className="nav-divider"> | </li>
               <li className="dropdown">
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span className="caret" /></a>
                 <ul className="dropdown-menu">

@@ -33,7 +33,6 @@ const {
   EditExpenseContainer,
   AddExpense,
   AddEvent,
-  PastEventsContainer,
   ReportsContainer,
   YearReportContainer,
   DashboardContainer,
@@ -46,7 +45,6 @@ ReactDOM.render(
         <IndexRoute component={DashboardContainer} />
         <Route path="/login" component={Login} />
         <Route path="/events" component={EventsListContainer} />
-        <Route path="/past" component={PastEventsContainer} />
         <Route path="/new" component={AddEvent} />
         <Route path="/reports" component={ReportsContainer} />
         <Route path="/reports/:year" component={YearReportContainer} />
