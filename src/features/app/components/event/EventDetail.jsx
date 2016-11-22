@@ -5,6 +5,7 @@ import { Admission } from '../admission/Admission';
 import { Expenses } from '../expenses/Expenses';
 import { AdminFee } from '../adminfee/AdminFee';
 import { Cashbox } from '../cashbox/Cashbox';
+import { RemoveAdminFee } from './RemoveAdminFee';
 import * as shared from '../../../data/shared';
 
 const Loading = require('react-loading-animation');
@@ -23,9 +24,13 @@ export class EventDetail extends React.Component {
   render() {
     const renderAdminFee = () => {
       const { fee } = this.props.event[0]; //eslint-disable-line
+      const eventId = this.props.params.id;
       if (fee > 0) {
         return (
-          <AdminFee fee={fee} />
+          <div>
+            <RemoveAdminFee eventId={eventId} />
+            <AdminFee fee={fee} />
+          </div>
         );
       }
       return true;

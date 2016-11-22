@@ -241,7 +241,18 @@ export function changeCheckBox(eventId, expenseId, checked) {
 // Function to update event totals when a ticket is modified
 // The majority of this code is to calculate the new administrative fee every
 // time a new ticket is added or removed.
-export function updateExpenses(eventId) {
+
+// Find the band expense
+function findBand(expense) {
+  return expense.type === 'Band';
+}
+
+// Find the venue expense
+function findVenue(expense) {
+  return expense.type === 'Venue';
+}
+
+export function updateExpenses(eventId, adminFeeStatus) {
   const eventRef = eventsRef.child(eventId);
   const expensesRef = eventRef.child('expenses');
   const state = store.getState().data;
@@ -250,15 +261,7 @@ export function updateExpenses(eventId) {
 
   const parsedExpenses = [];
 
-  // Find the band expense
-  function findBand(expense) {
-    return expense.type === 'Band';
-  }
-
-  // Find the venue expense
-  function findVenue(expense) {
-    return expense.type === 'Venue';
-  }
+  // If there are expenses, we are going to create an array of those expenses
   if (expenses) {
     Object.keys(expenses).forEach((expense) => {
       parsedExpenses.push({
@@ -285,25 +288,30 @@ export function updateExpenses(eventId) {
       newBandExpense = ((event.totalRevenue * bandExpense.percent) / 100) + venueMod; // eslint-disable-line
       if (event.totalRevenue > 0) {
         // If the band is making more than the minimum
-        if (event.fee <= 100 && newBandExpense > event.band_minimum && event.fee !== '') {
+        if (event.fee <= parseInt(event.max_fee, 10) && newBandExpense > event.band_minimum && adminFeeStatus !== 'NoAdminFee') {
           if (bandExpense.percent > 0 && venueExpense.percent > 0) {
             const r = newBandExpense - event.band_minimum; // $30
+            const maxBandPercentage = (event.max_fee * parseInt(bandExpense.percent, 10)) / 100;
+            const maxVenuePercentage = event.max_fee - maxBandPercentage;
             let bandAdmin;
-            if (r > bandExpense.percent) {
-              bandAdmin = parseInt(bandExpense.percent, 10);
+            if (r > maxBandPercentage) {
+              bandAdmin = maxBandPercentage;
             } else {
               bandAdmin = r;
             }
-            let venueAdmin = parseInt(((bandAdmin / (bandExpense.percent / 100)) - bandAdmin).toFixed(1), 10);
-            if (venueAdmin > venueExpense.percent) {
-              venueAdmin = parseInt(venueExpense.percent, 10);
+            let venueAdmin = parseInt(((bandAdmin / (bandExpense.percent / 100)) - bandAdmin).toFixed(1), 10); // eslint-disable-line
+            if (venueAdmin > maxVenuePercentage) {
+              venueAdmin = maxVenuePercentage;
             }
-
 
             // define variables if there is a percentage on the expense
             newBandExpense -= bandAdmin;
             newVenueExpense -= venueAdmin;
-            newAdminFee = bandAdmin + venueAdmin;
+            if (adminFeeStatus === 'NoAdminFee') {
+              newAdminFee = 0;
+            } else {
+              newAdminFee = bandAdmin + venueAdmin;
+            }
           }
         } else {
           newAdminFee = 0;
@@ -314,6 +322,9 @@ export function updateExpenses(eventId) {
         }
         if (newAdminFee < 0) {
           newAdminFee = 0;
+        }
+        if (newAdminFee > event.max_fee) {
+          newAdminFee = event.max_fee;
         }
       } else if (event.totalRevenue === 0) {
         newBandExpense = 0;
@@ -329,6 +340,19 @@ export function updateExpenses(eventId) {
       );
       const totalExpenses = expensesTotal().reduce((a, b) => a + b);
 
+      if (adminFeeStatus === 'NoAdminFee') {
+        eventRef.update({
+          fee: 0,
+          max_fee: 0,
+          band_minimum: 0,
+          totalExpenses,
+        });
+      } else {
+        eventRef.update({
+          fee: newAdminFee,
+          totalExpenses,
+        });
+      }
       // ***** Set the expenses and event updates in the database and the store
       if (newBandExpense) {
         expensesRef.child(bandExpenseId).update({
@@ -340,10 +364,12 @@ export function updateExpenses(eventId) {
           cost: newVenueExpense,
         });
       }
-      eventRef.update({
-        fee: newAdminFee,
-        totalExpenses,
-      });
     }
   }
+}
+
+export function removeAdminFee(eventId) {
+  updateExpenses(eventId, 'NoAdminFee');
+  updateTotals(eventId);
+  updateCash(eventId);
 }
