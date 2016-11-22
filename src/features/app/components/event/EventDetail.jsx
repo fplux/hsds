@@ -25,12 +25,16 @@ export class EventDetail extends React.Component {
     const renderAdminFee = () => {
       const { fee } = this.props.event[0]; //eslint-disable-line
       const eventId = this.props.params.id;
-      if (fee > 0) {
+      if (fee > 0 && this.props.disabled === false) {
         return (
           <div>
             <RemoveAdminFee eventId={eventId} />
             <AdminFee fee={fee} />
           </div>
+        );
+      } else if (fee > 0 && this.props.disabled === true) {
+        return (
+          <AdminFee fee={fee} />
         );
       }
       return true;
