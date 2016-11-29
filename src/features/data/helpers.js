@@ -151,7 +151,6 @@ export function calculateBluesData(events) {
   };
   Object.keys(events).map((event) => {
     const i = events[event];
-    console.log(i.type);
     if (i.type === 'blues') {
       bluesData.numEvents += 1;
       bluesData.count += i.totalCount;
@@ -178,4 +177,16 @@ export function fetchEventsForYear(year) {
   });
   store.dispatch(actions.fetchEventsForYear(shared.orderEvents(pastEventsArr, 'descending')));
   return pastEventsArr;
+}
+
+// Creating a function get user permissions and then send them back to saga to be set in the redux store
+
+
+/* Fetch Events from firebase and set them to the redux store */
+export function getUserPermissions(user) {
+  let userInfo = {};
+  firebaseRef.child('users').child(user).on('value', (snapshot) => {
+    userInfo = snapshot.val();
+    store.dispatch(actions.setUser(userInfo));
+  });
 }

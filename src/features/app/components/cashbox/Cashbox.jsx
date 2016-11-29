@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const Cashbox = props => (
-  <div className="table-container">
+  <div className={`table-container ${props.userClass}`}>
     <h3 className="text-center">Cashbox</h3>
     <table className="table-styles">
       <thead>

@@ -194,6 +194,34 @@ export const data = (state = [], action) => {
   }
 };
 
+const user = (state = [], action) => {
+  switch (action.type) {
+    case 'FETCHING_USER':
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'SET_USER':
+      return {
+        ...state,
+        ...action.user,
+        loading: false,
+      };
+    case 'LOGIN_ERROR':
+      return {
+        error: 'That username or password is not correct',
+      };
+    case 'NO_LOGIN_ERROR':
+      return {
+        error: '',
+      };
+    case 'LOGOUT':
+      return [];
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   events,
   event,
@@ -205,4 +233,5 @@ export default combineReducers({
   futureEvents,
   yearEvents,
   data,
+  user,
 });

@@ -34,9 +34,15 @@ export class Expenses extends React.Component {
     const { totalExpenses } = this.props;
     const parsedTotal = totalExpenses.toFixed(0);
     return (
-      <div>
+      <div className={this.props.userClass}>
         <h3 className="text-center table-header">Expenses</h3>
-        <Link className="table-add-link" onClick={e => this.handleClick(e)} to={`events/${eventId}/addexpense`}>Add Expense</Link>
+        <Link
+          className="table-add-link"
+          onClick={e => this.handleClick(e)}
+          to={`events/${eventId}/addexpense`}
+        >
+          <button className="custom-add-btn btn btn-primary">Add Expense</button>
+        </Link>
         <table className="table-styles">
           <thead>
             <tr>

@@ -4,6 +4,11 @@ body {
   font-weight: normal;
 }
 
+// hide important data for normal users that are not admins
+.user {
+  display: none;
+}
+
 .example-intro {
   margin-top: 60px;
 }
@@ -44,6 +49,12 @@ body {
   font-size: 0.9em;
   border-radius: 0;
   height: 50px;
+}
+
+.custom-add-btn {
+  margin: 10px 0;
+  width: 100px;
+  border-radius: 0;
 }
 
 .form-container {

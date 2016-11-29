@@ -113,6 +113,20 @@ export function fetchExpenseDetails(expense) {
   };
 }
 
+export function setUser(user) {
+  return function (dispatch) { //eslint-disable-line
+    dispatch({ type: 'FETCHING_USER' });
+    dispatch({
+      type: 'SET_USER',
+      user,
+    });
+  };
+}
+
+export const logout = () => ({
+  type: 'LOGOUT',
+});
+
 export const clearExpense = () => ({
   type: 'CLEAR_EXPENSE',
 });

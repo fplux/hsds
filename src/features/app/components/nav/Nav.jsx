@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link, IndexLink } from 'react-router';
+import firebase from '../../../../../firebase';
 import { Years } from './Years';
+import * as actions from '../../../data/actions';
+import store from '../../../../store';
 
 export class Nav extends React.Component {
   closeMenu = () => {
@@ -8,6 +11,11 @@ export class Nav extends React.Component {
       document.getElementById('nav-toggle').click();
     }
   };
+
+  logout = () => {
+    store.dispatch(actions.logout());
+    firebase.auth().signOut();
+  }
 
   render() {
     const activeStyles = {
@@ -41,7 +49,7 @@ export class Nav extends React.Component {
           <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
               <li>
-                <IndexLink onClick={this.closeMenu} to="/" className="link" activeClassName="active" activeStyle={activeStyles}>Dashboard</IndexLink>
+                <IndexLink onClick={this.closeMenu} to="/" className="link" activeClassName="active" activeStyle={activeStyles}>Overview</IndexLink>
               </li>
               <li className="nav-divider"> | </li>
               <li>
@@ -60,6 +68,11 @@ export class Nav extends React.Component {
                   </li>
                   {renderYears()}
                 </ul>
+              </li>
+            </ul>
+            <ul className="nav navbar-nav navbar-right">
+              <li>
+                <IndexLink onClick={this.logout} to="/" className="link" activeClassName="active" activeStyle={activeStyles}>Logout</IndexLink>
               </li>
             </ul>
           </div>

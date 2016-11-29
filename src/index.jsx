@@ -9,6 +9,14 @@ import * as actions from './features/data/actions';
 
 store.dispatch(actions.initialized());
 
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    hashHistory.push('/');
+  } else {
+    hashHistory.push('/login');
+  }
+});
+
 const requireLogin = (nextState, replace, next) => {
   if (!firebase.auth().currentUser) {
     replace('/login');
@@ -41,19 +49,19 @@ const {
 ReactDOM.render(
   <Provider store={store}>
     <Router history={hashHistory}>
-      <Route path="/" component={App}>
-        <IndexRoute component={DashboardContainer} />
-        <Route path="/login" component={Login} />
-        <Route path="/events" component={EventsListContainer} />
-        <Route path="/new" component={AddEvent} />
-        <Route path="/reports" component={ReportsContainer} />
-        <Route path="/reports/:year" component={YearReportContainer} />
-        <Route path="events/:id" component={EventDetailContainer} />
-        <Route path="events/:id/addticket" component={AddTicketContainer} />
-        <Route path="events/:id/addexpense" component={AddExpense} />
-        <Route path="events/:id/edit" component={EditEventContainer} />
-        <Route path="events/:id/editticket/:ticketid" component={EditTicketContainer} />
-        <Route path="events/:id/editexpense/:expenseid" component={EditExpenseContainer} />
+      <Route path="/" component={App} >
+        <IndexRoute component={DashboardContainer} onEnter={requireLogin} />
+        <Route path="/login" component={Login} onEnter={redirectIfLoggedIn} />
+        <Route path="/events" component={EventsListContainer} onEnter={requireLogin} />
+        <Route path="/new" component={AddEvent} onEnter={requireLogin} />
+        <Route path="/reports" component={ReportsContainer} onEnter={requireLogin} />
+        <Route path="/reports/:year" component={YearReportContainer} onEnter={requireLogin} />
+        <Route path="events/:id" component={EventDetailContainer} onEnter={requireLogin} />
+        <Route path="events/:id/addticket" component={AddTicketContainer} onEnter={requireLogin} />
+        <Route path="events/:id/addexpense" component={AddExpense} onEnter={requireLogin} />
+        <Route path="events/:id/edit" component={EditEventContainer} onEnter={requireLogin} />
+        <Route path="events/:id/editticket/:ticketid" component={EditTicketContainer} onEnter={requireLogin} />
+        <Route path="events/:id/editexpense/:expenseid" component={EditExpenseContainer} onEnter={requireLogin} />
       </Route>
     </Router>
   </Provider>,

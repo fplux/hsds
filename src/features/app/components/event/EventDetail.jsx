@@ -22,6 +22,15 @@ export class EventDetail extends React.Component {
   }
 
   render() {
+    const { role } = this.props.user;
+    const userClass = () => {
+      if (role === "admin") {
+        console.log('yes');
+        return 'admin';
+      } else {
+        return 'user';
+      }
+    };
     const renderAdminFee = () => {
       const { fee } = this.props.event[0]; //eslint-disable-line
       const eventId = this.props.params.id;
@@ -85,12 +94,18 @@ export class EventDetail extends React.Component {
             />
             {renderAdminFee()}
             <Expenses
+              userClass={userClass()}
               expenses={sortedExpenses}
               eventId={eventId}
               disabled={this.props.event.disabled}
               totalExpenses={totalExpenses}
             />
-            <Cashbox cash={event.cash} endingCash={event.endingCash} net={event.net} />
+            <Cashbox
+              userClass={userClass()}
+              cash={event.cash}
+              endingCash={event.endingCash}
+              net={event.net}
+            />
           </div>
         );
       }
