@@ -6,6 +6,13 @@ import * as actions from '../../../data/actions';
 import store from '../../../../store';
 
 export class Nav extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      userStatus: '',
+    };
+  }
+
   closeMenu = () => {
     if (window.innerWidth < 600) {
       document.getElementById('nav-toggle').click();
@@ -70,7 +77,7 @@ export class Nav extends React.Component {
                 </ul>
               </li>
             </ul>
-            <ul className="nav navbar-nav navbar-right">
+            <ul className={`${this.props.user.userStatus} nav navbar-nav navbar-right`}>
               <li>
                 <IndexLink onClick={this.logout} to="/" className="link" activeClassName="active" activeStyle={activeStyles}>Logout</IndexLink>
               </li>
@@ -85,4 +92,5 @@ export class Nav extends React.Component {
 Nav.propTypes = {
   loading: React.PropTypes.bool,
   years: React.PropTypes.array,// eslint-disable-line
+  user: React.PropTypes.user,
 };

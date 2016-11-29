@@ -205,6 +205,7 @@ const user = (state = [], action) => {
       return {
         ...state,
         ...action.user,
+        userStatus: 'loggedin',
         loading: false,
       };
     case 'LOGIN_ERROR':
@@ -216,7 +217,9 @@ const user = (state = [], action) => {
         error: '',
       };
     case 'LOGOUT':
-      return [];
+      return {
+        userStatus: 'loggedout',
+      };
     default:
       return state;
   }

@@ -15,6 +15,11 @@ export function login(email, password) {
     }
   }).then((success) => {
     if (success) {
+      helpers.getUserPermissions(success.uid);
+      const user = {
+        id: success.uid,
+      };
+      store.dispatch(actions.setUser(user));
       window.location = '#/';
     }
   });

@@ -9,14 +9,16 @@ export class Login extends React.Component {
   }
   render() {
     return (
-      <div className="page-container">
-        <h1>Login</h1>
-        <input className="form-control" type="text" ref={(ref) => { this.email = ref; }} />
-        <input className="form-control" type="password" ref={(ref) => { this.password = ref; }} />
-        <br />
-        <button className="btn btn-primary" onClick={() => this.login()}>Login</button>
-        <br />
-        <p className="login-error">{this.props.error}</p>
+      <div className="login-container">
+        <div className="login-box">
+          <h1 className="text-center">HSDS Login</h1>
+          <input className="form-control" type="text" ref={(ref) => { this.email = ref; }} />
+          <input className="form-control" type="password" ref={(ref) => { this.password = ref; }} />
+          <br />
+          <button className="custom-login-btn btn btn-primary" onClick={() => this.login()}>Login</button>
+          <br />
+          <p className="login-error">{this.props.error}</p>
+        </div>
       </div>
     );
   }
