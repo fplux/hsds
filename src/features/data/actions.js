@@ -6,16 +6,6 @@ export const initialized = () => ({
   type: INITIALIZED,
 });
 
-// export function fetchEvents(events) {
-//   return function (dispatch) { //eslint-disable-line
-//     dispatch({ type: 'START_FETCHING_EVENTS' });
-//     dispatch({
-//       type: 'RECEIVED_EVENTS',
-//       events,
-//     });
-//   };
-// }
-
 export function eventsReceived(events) {
   return function (dispatch) { // eslint-disable-line
     dispatch({ type: 'START_FETCHING_EVENTS' });
@@ -125,6 +115,10 @@ export function setUser(user) {
 
 export const logout = () => ({
   type: 'LOGOUT',
+});
+
+export const loginerror = () => ({
+  type: 'LOGIN_ERROR',
 });
 
 export const clearExpense = () => ({

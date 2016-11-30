@@ -24,12 +24,10 @@ export class EventDetail extends React.Component {
   render() {
     const { role } = this.props.user;
     const userClass = () => {
-      if (role === "admin") {
-        console.log('yes');
+      if (role === 'admin') {
         return 'admin';
-      } else {
-        return 'user';
       }
+      return 'user';
     };
     const renderAdminFee = () => {
       const { fee } = this.props.event[0]; //eslint-disable-line
@@ -79,13 +77,14 @@ export class EventDetail extends React.Component {
             <h2 className="text-center page-header">
               {event.name} | {event.date}
             </h2>
-            <div className="text-center edit">
+            <div className={`${userClass()} text-center edit`}>
               <Link onClick={e => this.handleClick(e)} to={`events/${eventId}/edit`}>
                 Edit Event
               </Link>
             </div>
             {disabledMessage()}
             <Admission
+              userClass={userClass()}
               tickets={event.tickets}
               eventId={eventId}
               disabled={this.props.event.disabled}
@@ -122,10 +121,13 @@ export class EventDetail extends React.Component {
 EventDetail.propTypes = {
   event: React.PropTypes.shape({
     loading: React.PropTypes.bool,
+    disabled: React.PropTypes.bool,
+  }),
+  user: React.PropTypes.shape({
+    role: React.PropTypes.String,
   }),
   disabled: React.PropTypes.bool,
   params: React.PropTypes.shape({
     id: React.PropTypes.string,
   }),
-  dispatch: React.PropTypes.func,
 };

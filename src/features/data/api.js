@@ -11,7 +11,7 @@ const eventsRef = firebaseRef.child('events');
 export function login(email, password) {
   firebase.auth().signInWithEmailAndPassword(email, password).catch((err) => {
     if (err) {
-
+      store.dispatch(actions.loginerror());
     }
   }).then((success) => {
     if (success) {

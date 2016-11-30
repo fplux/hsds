@@ -41,6 +41,67 @@ export class Nav extends React.Component {
       }
       return true;
     };
+
+    const adminNav = () => (
+      <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul className="nav navbar-nav">
+          <li>
+            <IndexLink onClick={this.closeMenu} to="/" className="link" activeClassName="active" activeStyle={activeStyles}>Overview</IndexLink>
+          </li>
+          <li className="nav-divider"> | </li>
+          <li>
+            <Link onClick={this.closeMenu} to="/events" className="link" activeClassName="active" activeStyle={activeStyles}>Events</Link>
+          </li>
+          <li className="nav-divider"> | </li>
+          <li>
+            <Link onClick={this.closeMenu} to="/new" className="link" activeClassName="active" activeStyle={activeStyles}>Add Event</Link>
+          </li>
+          <li className="nav-divider"> | </li>
+          <li className="dropdown">
+            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span className="caret" /></a>
+            <ul className="dropdown-menu">
+              <li>
+                <Link onClick={this.closeMenu} to="/reports" className="link" activeClassName="active" activeStyle={activeStyles}>All Events</Link>
+              </li>
+              {renderYears()}
+            </ul>
+          </li>
+        </ul>
+        <ul className={`${this.props.user.userStatus} nav navbar-nav navbar-right`}>
+          <li>
+            <IndexLink onClick={this.logout} to="/" className="link" activeClassName="active" activeStyle={activeStyles}>Logout</IndexLink>
+          </li>
+        </ul>
+      </div>
+    );
+
+    const userNav = () => (
+      <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul className="nav navbar-nav">
+          <li>
+            <Link onClick={this.closeMenu} to="/events" className="link" activeClassName="active" activeStyle={activeStyles}>Events</Link>
+          </li>
+        </ul>
+        <ul className={`${this.props.user.userStatus} nav navbar-nav navbar-right`}>
+          <li>
+            <IndexLink onClick={this.logout} to="/" className="link" activeClassName="active" activeStyle={activeStyles}>Logout</IndexLink>
+          </li>
+        </ul>
+      </div>
+    );
+
+    const noUserNav = () => (
+      <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1" />
+    );
+
+    const navigation = () => {
+      if (this.props.user.role === 'admin') {
+        return adminNav();
+      } else if (this.props.user.role === 'user') {
+        return userNav();
+      }
+      return noUserNav();
+    };
     return (
       <nav className="navbar navbar-default navbar-fixed-top">
         <div className="container-fluid">
@@ -53,36 +114,7 @@ export class Nav extends React.Component {
             </button>
             <li className="navbar-brand nav-title" href="#">HSDS</li>
           </div>
-          <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul className="nav navbar-nav">
-              <li>
-                <IndexLink onClick={this.closeMenu} to="/" className="link" activeClassName="active" activeStyle={activeStyles}>Overview</IndexLink>
-              </li>
-              <li className="nav-divider"> | </li>
-              <li>
-                <Link onClick={this.closeMenu} to="/events" className="link" activeClassName="active" activeStyle={activeStyles}>Events</Link>
-              </li>
-              <li className="nav-divider"> | </li>
-              <li>
-                <Link onClick={this.closeMenu} to="/new" className="link" activeClassName="active" activeStyle={activeStyles}>Add Event</Link>
-              </li>
-              <li className="nav-divider"> | </li>
-              <li className="dropdown">
-                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span className="caret" /></a>
-                <ul className="dropdown-menu">
-                  <li>
-                    <Link onClick={this.closeMenu} to="/reports" className="link" activeClassName="active" activeStyle={activeStyles}>All Events</Link>
-                  </li>
-                  {renderYears()}
-                </ul>
-              </li>
-            </ul>
-            <ul className={`${this.props.user.userStatus} nav navbar-nav navbar-right`}>
-              <li>
-                <IndexLink onClick={this.logout} to="/" className="link" activeClassName="active" activeStyle={activeStyles}>Logout</IndexLink>
-              </li>
-            </ul>
-          </div>
+          {navigation()}
         </div>
       </nav>
     );

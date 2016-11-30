@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { firebaseRef } from '../../../firebase';
+import firebase, { firebaseRef } from '../../../firebase';
 import * as shared from './shared';
 import store from '../../store';
 import * as actions from '../data/actions';
@@ -71,10 +71,10 @@ export function calculateData() {
   let countWithVenues = 0;
 
   const numEvents = Object.keys(events).length;
-  Object.keys(events).map((event) => {
+  Object.keys(events).map((event) => { //eslint-disable-line
     const i = events[event];
     let e;
-    for (e in i.expenses) {
+    for (e in i.expenses) { //eslint-disable-line
       if (i.expenses[e].type === 'Band') {
         bandExpenses += i.expenses[e].cost;
         countWithBands += 1;
@@ -132,7 +132,7 @@ export function calculateBalData(events) {
     count: 0,
     avgAttendance: 0,
   };
-  Object.keys(events).map((event) => {
+  Object.keys(events).map((event) => { //eslint-disable-line
     const i = events[event];
     if (i.type === 'bal') {
       balData.numEvents += 1;
@@ -149,7 +149,7 @@ export function calculateBluesData(events) {
     count: 0,
     avgAttendance: 0,
   };
-  Object.keys(events).map((event) => {
+  Object.keys(events).map((event) => { //eslint-disable-line
     const i = events[event];
     if (i.type === 'blues') {
       bluesData.numEvents += 1;
@@ -180,13 +180,33 @@ export function fetchEventsForYear(year) {
 }
 
 // Creating a function get user permissions and then send them back to saga to be set in the redux store
-
-
-/* Fetch Events from firebase and set them to the redux store */
 export function getUserPermissions(user) {
   let userInfo = {};
   firebaseRef.child('users').child(user).on('value', (snapshot) => {
     userInfo = snapshot.val();
     store.dispatch(actions.setUser(userInfo));
+  });
+}
+
+export function getUser() {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      firebaseRef.child('users').child(user.uid).on('value', (snapshot) => {
+        const userInfo = snapshot.val();
+        store.dispatch(actions.setUser(userInfo));
+      });
+    }
+  });
+}
+
+export function getLoggedInUser() {
+  return new Promise((resolve, reject) => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        resolve(user.uid);
+      } else {
+        reject(Error('It broke'));
+      }
+    });
   });
 }

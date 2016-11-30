@@ -207,14 +207,11 @@ const user = (state = [], action) => {
         ...action.user,
         userStatus: 'loggedin',
         loading: false,
+        error: '',
       };
     case 'LOGIN_ERROR':
       return {
         error: 'That username or password is not correct',
-      };
-    case 'NO_LOGIN_ERROR':
-      return {
-        error: '',
       };
     case 'LOGOUT':
       return {

@@ -18,3 +18,13 @@
 .custom-login-btn {
   border-radius: 0;
 }
+
+.login-error {
+  color: red;
+}
+
+@media (max-width: 600px) {
+  .login-container {
+    margin-top: 100px;
+  }
+}

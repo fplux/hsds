@@ -24,13 +24,13 @@ export class Admission extends React.Component {
 
     return (
       <div className="table-container">
-        <h3 className="text-center table-header">Tickets</h3>
+        <h3 className={`${this.props.userClass} text-center table-header`}>Tickets</h3>
         <Link
           className="table-add-link"
           onClick={e => this.handleClick(e)}
           to={`events/${eventId}/addticket`}
         >
-          <button className="btn btn-primary custom-add-btn">Add Tickets</button>
+          <button className={`${this.props.userClass} btn btn-primary custom-add-btn`}>Add Tickets</button>
         </Link>
         <table className="table-styles">
           <thead>
@@ -63,4 +63,5 @@ Admission.propTypes = {
   tickets: React.PropTypes.object, // eslint-disable-line
   eventId: React.PropTypes.string,
   disabled: React.PropTypes.bool,
+  userClass: React.PropTypes.string,
 };

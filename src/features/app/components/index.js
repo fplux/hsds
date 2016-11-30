@@ -27,7 +27,7 @@ export { YearReportContainer } from './reports/YearReportContainer';
 
 export { DashboardContainer } from './dashboard/DashboardContainer';
 
-export { Login } from './login/Login';
+export { LoginContainer } from './login/LoginContainer';
 
 // export { AdminFee } from './AdminFee';
 // export { Admission } from './Admission';
