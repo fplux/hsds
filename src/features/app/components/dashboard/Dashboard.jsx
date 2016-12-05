@@ -21,28 +21,16 @@ export class Dashboard extends React.Component {
           <div>
             <h3 className="text-center page-header">Dashboard</h3>
             <div className="dashboard-container">
-              <div className="row">
-                <div className="col-md-4">
-                  <YearlySummary year={year} {...this.props} />
-                </div>
-                <div className="col-md-4">
-                  <Metrics {...this.props} />
-                </div>
-                <div className="col-md-4">
-                  <Averages {...this.props} />
-                </div>
+              <div className="dash-row">
+                <YearlySummary year={year} {...this.props} />
+                <Metrics {...this.props} />
+                <Averages {...this.props} />
               </div>
               <br /> <br />
-              <div className="row">
-                <div className="col-md-4">
-                  <BalSummary {...this.props} />
-                </div>
-                <div className="col-md-4">
-                  <BluesSummary {...this.props} />
-                </div>
-                <div className="col-md-4">
-                  <MonthlySummary {...this.props} />
-                </div>
+              <div className="dash-row">
+                <BalSummary {...this.props} />
+                <BluesSummary {...this.props} />
+                <MonthlySummary {...this.props} />
               </div>
             </div>
           </div>

@@ -5,15 +5,15 @@ export const Averages = props => (
     <div className="header">
       <h3>Yearly Averages</h3>
     </div>
-    <div className="income">
+    <div className="first-column">
       <h4>Average Band Cost</h4>
       <p>${props.avgBandCost}</p>
     </div>
-    <div className="expenses">
+    <div className="second-column">
       <h4>Average Venue Cost</h4>
       <p>${props.avgVenueCost}</p>
     </div>
-    <div className="expenses">
+    <div className="third-column">
       <h4>Average Attendance</h4>
       <p>{props.avgEvent}</p>
     </div>

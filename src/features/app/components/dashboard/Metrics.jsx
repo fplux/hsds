@@ -5,15 +5,15 @@ export const Metrics = props => (
     <div className="header">
       <h3>Metrics</h3>
     </div>
-    <div className="expenses">
+    <div className="first-column">
       <h4>Number of Events</h4>
       <p>{props.numEvents}</p>
     </div>
-    <div className="income">
+    <div className="second-column">
       <h4>Admissions for the year</h4>
       <p>{props.count}</p>
     </div>
-    <div className="expenses">
+    <div className="third-column">
       <h4>Amount per Admission</h4>
       <p>${props.revper}</p>
     </div>
