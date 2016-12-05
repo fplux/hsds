@@ -45,16 +45,14 @@ export class AddTicket extends React.Component {
         case false: {
           const { tickets } = this.props;
           return (
-            Object.keys(tickets).map((ticket) => {
-              return (
-                <CommonTicketButton
-                  key={ticket}
-                  id={ticket}
-                  handleClick={this.handleClick}
-                  {...tickets[ticket]}
-                />
-              );
-            })
+            Object.keys(tickets).map(ticket => (
+              <CommonTicketButton
+                key={ticket}
+                id={ticket}
+                handleClick={this.handleClick}
+                {...tickets[ticket]}
+              />
+            ))
           );
         }
         default:
@@ -91,4 +89,6 @@ AddTicket.propTypes = {
   params: React.PropTypes.shape({
     id: React.PropTypes.string,
   }),
+  loading: React.PropTypes.bool,
+  tickets: React.PropTypes.object, //eslint-disable-line
 };
