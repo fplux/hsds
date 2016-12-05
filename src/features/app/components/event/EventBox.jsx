@@ -17,7 +17,6 @@ export class EventBox extends React.Component {
             <div className="col-md-6">
               <p className="event-name"><strong>{name}</strong></p>
               <p><strong>Date:</strong> {date}</p>
-              <p><strong>Time: </strong> {time}</p>
             </div>
             <div className="col-md-6">
               <p><strong>Revenue:</strong> ${totalRevenue}</p>

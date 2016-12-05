@@ -1,50 +1,75 @@
 import React from 'react';
 import moment from 'moment';
-import DatePicker from 'react-datepicker';
+import _ from 'lodash';
+import Datetime from 'react-datetime';
 import { Link } from 'react-router';
 import * as api from '../../../data/api';
 import * as shared from '../../../data/shared';
+import { FeeOptions } from './inputs/FeeOptions';
 
 const Loading = require('react-loading-animation');
 
 export class EditEvent extends React.Component {
   constructor(props) {
     super(props);
-    const { id } = this.props.params;
-    api.fetchEventDetails(id);
+    // convert the string date into a moment() object and set it to state
+    const newDate = new Date(this.props.event.date);
     this.state = {
-      startDate: moment(),
       error: false,
+      errorMessage: '',
+      newEvent: {
+        name: this.props.event.name,
+        type: this.props.event.type,
+        date: moment(newDate),
+        fee: this.props.event.fee,
+        max_fee: this.props.event.max_fee,
+        band_minimum: this.props.event.band_minimum,
+        cash: this.props.event.cash,
+      },
+      dateChanged: false,
     };
   }
-  handleChange(date) {
+
+  /* Function to handle the change of the datepicker */
+  handleChange = (selectedDate) => {
     this.setState({
-      startDate: date,
+      dateChanged: true,
+      newEvent: {
+        ...this.state.newEvent,
+        date: selectedDate.format('MM/DD/YYYY h:mm A'),
+      },
     });
   }
-  handleSubmit(e) {
-    if (this.state.startDate === undefined) {
-      e.preventDefault();
-      this.setState({
-        error: true,
-      });
-    } else {
-      e.preventDefault();
-      const { id } = this.props.params;
-      const eventDetails = {
-        name: this.name.value,
-        type: this.type.value,
-        date: this.state.startDate.format('L'),
-        time: this.time.value,
-        fee: this.fee.value,
-        max_fee: this.max_fee.value,
-        band_minimum: this.band_minimum.value,
-        cash: parseInt(this.cash.value, 10),
-      };
-      api.editEventDetails(id, eventDetails);
-      window.location = `#/events/${id}`;
-    }
+
+  handleValueChange = (e) => {
+    e.preventDefault();
+    this.setState({
+      newEvent: {
+        ...this.state.newEvent,
+        [e.target.id]: e.target.value,
+      },
+    });
   }
+
+  /* Submit the form */
+  handleSubmit(e) {
+    let eventData = {};
+    // if the date has not been changed, we need to convert it from a moment to a string
+    if (this.state.dateChanged === false) {
+      eventData = {
+        ...this.state.newEvent,
+        date: this.props.event.date,
+      };
+    } else {
+      eventData = this.state.newEvent;
+    }
+    e.preventDefault();
+    const { id } = this.props.params;
+    api.editEventDetails(id, eventData);
+    window.location = `#/events/${id}`;
+  }
+
+  /* Function to handle the removeal of an event */
   handleRemove(e) {
     e.preventDefault();
     if (shared.confirmDeleteEvent() === true) {
@@ -53,15 +78,16 @@ export class EditEvent extends React.Component {
       window.location = '#/events/';
     }
   }
+
+  /* Render the component */
   render() {
-    const errorMessage = () => {
-      if (this.state.error) {
-        return (
-          <p className="error-message">You must enter a date</p>
-        );
-      }
-      return true;
-    };
+    const renderFeeOptions = n => (_.range(0, n, 10).map(index => (
+      <FeeOptions
+        handleChange={this.handleValueChange}
+        key={index}
+        option={index}
+      />
+    )));
     const renderForm = () => {
       if (this.props.loading === true) {
         return (
@@ -78,35 +104,52 @@ export class EditEvent extends React.Component {
             <div className="form-group">
               <form>
                 <label htmlFor="type">Name</label>
-                <input className="form-control" type="text" name="type" ref={(ref) => { this.name = ref; }} defaultValue={name} />
+                <input className="form-control"type="text" name="type" id="name" defaultValue={name} onChange={this.handleValueChange} />
                 <label htmlFor="type">Type of Event</label>
-                <select className="form-control" ref={(ref) => { this.type = ref; }} defaultValue={type}>
-                  <option value="hbn">Huntsville Bal Night</option>
+                <select className="form-control" id="type" defaultValue={type} onChange={this.handleValueChange}>
+                  <option value="" />
+                  <option value="bal">Huntsville Bal Night</option>
+                  <option value="blues">Huntsville Blues Night</option>
                   <option value="monthly">Monthly Dance</option>
                 </select>
-                <label htmlFor="date">Date</label>
-                <br />
-                <DatePicker
-                  name="date"
-                  selected={this.state.startDate}
-                  onChange={newDate => this.handleChange(newDate)}
-                  placeholder="Select a date"
-                /><br />
-                <label htmlFor="cost">Time</label>
-                <input className="form-control" type="text" name="cost" ref={(ref) => { this.time = ref; }} defaultValue={time} />
-                <label htmlFor="percent">Fee</label>
-                <input className="form-control" type="text" name="percent" ref={(ref) => { this.fee = ref; }} defaultValue={fee} />
-                <label htmlFor="percent">Max Fee</label>
-                <input className="form-control" type="text" name="percent" ref={(ref) => { this.max_fee = ref; }} defaultValue={max_fee} />
-                <label htmlFor="percent">Band Minimum</label>
-                <input className="form-control" type="text" name="percent" ref={(ref) => { this.band_minimum = ref; }} defaultValue={band_minimum} />
-                <label htmlFor="percent">Cash</label>
-                <input className="form-control" type="text" name="percent" ref={(ref) => { this.cash = ref; }} defaultValue={cash} />
+
+                <label htmlFor="date">Date & Time</label><br />
+                <Datetime
+                  defaultValue={this.state.newEvent.date}
+                  id="date-picker"
+                  onChange={this.handleChange}
+                  readOnly
+                />
+
+                <div className="add-inputs">
+                  <label htmlFor="fee">Fee:</label><br />
+                  $
+                  <select id="fee" defaultValue={fee} onChange={this.handleValueChange} >
+                    {renderFeeOptions(110)}
+                  </select>
+                </div>
+
+                <div className="add-inputs">
+                  <label htmlFor="max_fee">Max Fee:</label><br />
+                  $
+                  <select id="max_fee" defaultValue={max_fee} onChange={this.handleValueChange} >
+                    {renderFeeOptions(110)}
+                  </select>
+                </div>
+
+                <div className="add-inputs">
+                  <label htmlFor="band_minimum">Band Minimum:</label><br />
+                  $
+                  <select size="1" id="band_minimum" defaultValue={band_minimum} onChange={this.handleValueChange} >
+                    {renderFeeOptions(700)}
+                  </select>
+                </div>
+                <label htmlFor="cash">Starting Cashbox Amount</label>
+                <input className="form-control" id="cash" type="text" name="cash" defaultValue={cash} onChange={this.handleValueChange} />
                 <button onClick={e => this.handleSubmit(e)} className="btn btn-primary custom-buttons">Submit</button>
                 <Link to={`events/${id}`}><button className="btn btn-primary custom-buttons">Cancel</button></Link>
                 <button onClick={e => this.handleRemove(e)} className="btn btn-danger custom-buttons">Remove</button>
                 <br />
-                {errorMessage()}
               </form>
             </div>
           </div>
@@ -122,12 +165,15 @@ export class EditEvent extends React.Component {
   }
 }
 
+/* React Proptypes */
 EditEvent.propTypes = {
   params: React.PropTypes.shape({
     id: React.PropTypes.string,
   }),
   loading: React.PropTypes.bool,
   event: React.PropTypes.shape({
+    type: React.PropTypes.string,
+    date: React.PropTypes.string,
     name: React.PropTypes.string,
     time: React.PropTypes.string,
     fee: React.PropTypes.string,

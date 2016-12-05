@@ -1,10 +1,12 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
+@import './react-date-picker.css';
+@import './react-datetime.css';
 @import './resets';
 @import './shared';
-@import './react-datepicker.min.css';
 @import url('https://fonts.googleapis.com/css?family=Quattrocento+Sans');
 @import '~foundation-icons/foundation-icons.scss';
 @import '../features/app/components/event/event-box';
+@import '../features/app/components/event/add-event';
 @import '../features/app/components/app/app';
 @import '../features/app/components/nav/nav';
 @import '../features/app/components/admission/admission';

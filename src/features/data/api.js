@@ -174,8 +174,8 @@ export function updateCash(eventId) {
     for (let i = 0; i < parsedExpenses.length; i += 1) {
       totalExpenses += parsedExpenses[i].cost;
     }
-    const endingCash = Math.floor((event.totalRevenue - totalExpenses) + event.cash);
-    const net = endingCash - event.cash;
+    const endingCash = Math.floor((event.totalRevenue - totalExpenses) + parseInt(event.cash, 10));
+    const net = endingCash - parseInt(event.cash, 10);
     eventRef.update({
       totalExpenses,
       endingCash,
