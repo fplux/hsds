@@ -82,6 +82,12 @@ export function fetchCommonTickets() {
   });
 }
 
+export function fetchAdminDetails() {
+  firebaseRef.child('admin').child('split').on('value', (snapshot) => {
+    const adminInfo = snapshot.val() || '';
+    store.dispatch(actions.setAdminDetails(adminInfo));
+  });
+}
 
 // Fetch ticket details given a ticket ID
 export function fetchTicketDetails(id, ticketid) {
@@ -163,25 +169,23 @@ export function updateCash(eventId) {
   const eventRef = eventsRef.child(eventId);
   const event = store.getState().data.event[0];
   const expenses = event.expenses;
-  const parsedExpenses = [];
+  let totalExpenses;
+  let net;
+  let endingCash;
   if (expenses) {
-    Object.keys(expenses).forEach((expense) => {
-      parsedExpenses.push({
-        ...event.expenses[expense],
-      });
-    });
-    let totalExpenses = 0;
-    for (let i = 0; i < parsedExpenses.length; i += 1) {
-      totalExpenses += parsedExpenses[i].cost;
-    }
-    const endingCash = Math.floor((event.totalRevenue - totalExpenses) + parseInt(event.cash, 10));
-    const net = endingCash - parseInt(event.cash, 10);
-    eventRef.update({
-      totalExpenses,
-      endingCash,
-      net,
-    });
+    totalExpenses = getTotalEventExpenses(expenses);
+    endingCash = Math.floor((event.totalRevenue - totalExpenses) + parseInt(event.cash, 10));
+    net = endingCash - parseInt(event.cash, 10);
+  } else {
+    totalExpenses = 0;
+    endingCash = parseInt(event.cash, 10);
+    net = endingCash;
   }
+  eventRef.update({
+    totalExpenses,
+    endingCash,
+    net,
+  });
 }
 
 // Expenses
@@ -257,16 +261,16 @@ function findVenue(expense) {
   return expense.type === 'Venue';
 }
 
-export function updateExpenses(eventId, adminFeeStatus) {
-  const eventRef = eventsRef.child(eventId);
-  const expensesRef = eventRef.child('expenses');
+/* Get the expenses from firebase and return them */
+export function getEvent() {
   const state = store.getState().data;
   const event = state.event[0];
-  const expenses = event.expenses;
+  return event;
+}
 
+/* parse the expenses in order to search for bands and venues */
+export function parseExpenses(expenses) {
   const parsedExpenses = [];
-
-  // If there are expenses, we are going to create an array of those expenses
   if (expenses) {
     Object.keys(expenses).forEach((expense) => {
       parsedExpenses.push({
@@ -274,102 +278,150 @@ export function updateExpenses(eventId, adminFeeStatus) {
         key: expense,
       });
     });
+  }
+  return parsedExpenses;
+}
 
-    const bandExpense = parsedExpenses.find(findBand); // band expense
-    const venueExpense = parsedExpenses.find(findVenue); // venue expense
+/* Get the total of all the expenses for the event and return a total */
+export function getTotalEventExpenses(expenses) {
+  const expensesTotal = () => (
+    Object.keys(expenses).map((expense) => {
+      const expenseTotal = (expenses[expense].cost);
+      return expenseTotal;
+    })
+  );
+  return expensesTotal().reduce((a, b) => a + b);
+}
 
-    // Make sure the band and the venue both exist
-    if (bandExpense !== undefined && venueExpense !== undefined) {
-      // define the band and expense keys
-      const bandExpenseId = bandExpense.key;
-      const venueExpenseId = venueExpense.key;
+/* This function is executed each time a ticket is added.  This function does several things.
+ * First */
+export function updateExpenses(eventId, adminFeeStatus) {
+    /* Define the expenses and then find the band and venue expenses specifically */
+  const event = getEvent();
+  const expenses = event.expenses;
+  const parsedExpenses = parseExpenses(expenses);
+  const bandExpense = parsedExpenses.find(findBand);
+  const venueExpense = parsedExpenses.find(findVenue);
 
-      let newBandExpense;
-      let newVenueExpense;
-      let newAdminFee;
-      newVenueExpense = (event.totalRevenue * venueExpense.percent) / 100;
-      let venueMod = parseFloat((newVenueExpense % 1).toFixed(1), 10);
-      newVenueExpense -= venueMod;
-      newBandExpense = ((event.totalRevenue * bandExpense.percent) / 100) + venueMod; // eslint-disable-line
-      if (event.totalRevenue > 0) {
-        // If the band is making more than the minimum
-        if (event.fee <= parseInt(event.max_fee, 10) && newBandExpense > event.band_minimum && adminFeeStatus !== 'NoAdminFee') {
-          if (bandExpense.percent > 0 && venueExpense.percent > 0) {
-            const r = newBandExpense - event.band_minimum; // $30
-            const maxBandPercentage = (event.max_fee * parseInt(bandExpense.percent, 10)) / 100;
-            const maxVenuePercentage = event.max_fee - maxBandPercentage;
-            let bandAdmin;
-            if (r > maxBandPercentage) {
-              bandAdmin = maxBandPercentage;
-            } else {
-              bandAdmin = r;
-            }
-            let venueAdmin = parseInt(((bandAdmin / (bandExpense.percent / 100)) - bandAdmin).toFixed(1), 10); // eslint-disable-line
-            if (venueAdmin > maxVenuePercentage) {
-              venueAdmin = maxVenuePercentage;
-            }
 
-            // define variables if there is a percentage on the expense
-            newBandExpense -= bandAdmin;
-            newVenueExpense -= venueAdmin;
-            if (adminFeeStatus === 'NoAdminFee') {
-              newAdminFee = 0;
-            } else {
-              newAdminFee = bandAdmin + venueAdmin;
-            }
+  // Make sure the band and the venue both exist
+  if (bandExpense !== undefined && venueExpense !== undefined) {
+    // define the band and expense keys
+    const bandExpenseId = bandExpense.key;
+    const venueExpenseId = venueExpense.key;
+
+    let newAdminFee;
+    let newVenueExpense = (event.totalRevenue * venueExpense.percent) / 100;
+    let venueMod = parseFloat((newVenueExpense % 1).toFixed(1), 10);
+    newVenueExpense -= venueMod;
+    let newBandExpense = ((event.totalRevenue * bandExpense.percent) / 100) + venueMod; // eslint-disable-line
+
+    /* Check if the event has revenue, this check is needed in case all the
+     * tickets are removed and the revenue gets brought back down to zero */
+    if (event.totalRevenue > 0) {
+      /**
+        * Here we check to see if the event fee is less than the max fee and
+        * if the new band expense is greater than the band minimumas well as
+        * if the adminfeestatus is true
+      **/
+      // eslint-disable-next-line
+      if (event.fee <= parseInt(event.max_fee, 10) && newBandExpense > event.band_minimum && adminFeeStatus !== 'NoAdminFee') {
+
+          /* Check to see if there are percentages assigned to the expenses */
+        if (bandExpense.percent > 0 && venueExpense.percent > 0) {
+          const maxBandPercentage = (event.max_fee * parseInt(bandExpense.percent, 10)) / 100;
+          const maxVenuePercentage = event.max_fee - maxBandPercentage;
+
+          /**
+            *Find the difference between the new band expense and the mimimum
+            * band expense for the event.  If the difference is greater than
+            * the max band fee definded above, then set the band admin fee
+            * to the max percentage.  (for example: if the band minium is 600
+            * and the new band expense is 700.  The difference is 100.
+            *  If the band percentage was set at *70%, * this would mean
+            * the band is only allowed $70 at maximum, so we would need to
+            * set the band's admin fee at $70
+          **/
+          const r = newBandExpense - event.band_minimum;
+          let bandAdmin;
+          bandAdmin = r > maxBandPercentage ? maxBandPercentage : r;
+          if (r > maxBandPercentage) {
+            bandAdmin = maxBandPercentage;
+          } else {
+            bandAdmin = r;
           }
-        } else {
-          newAdminFee = 0;
-          newVenueExpense = (event.totalRevenue * parseInt(venueExpense.percent, 10)) / 100; // eslint-disable-line
-          venueMod = newVenueExpense % 1;
-          newVenueExpense -= venueMod;
-          newBandExpense = (event.totalRevenue * (bandExpense.percent / 100));
+
+          /**
+            * Define the venue's admin fee by calculating what the band's
+            * admin fee was and if the venue admin comes out to be higher
+            * than the max venue fee then set the venue admin fee to the max fee's value.
+          **/
+          let venueAdmin = parseInt(((bandAdmin / (bandExpense.percent / 100)) - bandAdmin).toFixed(1), 10); // eslint-disable-line
+          if (venueAdmin > maxVenuePercentage) {
+            venueAdmin = maxVenuePercentage;
+          }
+
+
+          /* Take away the admin fees from the new expenses and then check the
+           * status of the admin fee.  Then set the admin fee to the sum of
+           * the two admin fees */
+          newBandExpense -= bandAdmin;
+          newVenueExpense -= venueAdmin;
+          newAdminFee = bandAdmin + venueAdmin;
         }
-        if (newAdminFee < 0) {
-          newAdminFee = 0;
-        }
-        if (newAdminFee > event.max_fee) {
-          newAdminFee = event.max_fee;
-        }
-      } else if (event.totalRevenue === 0) {
-        newBandExpense = 0;
-        newVenueExpense = 0;
+      } else { // if there are no percentages assigned
+        newAdminFee = 0;
+        newVenueExpense = (event.totalRevenue * parseInt(venueExpense.percent, 10)) / 100; // eslint-disable-line
+        venueMod = newVenueExpense % 1;
+        newVenueExpense -= venueMod;
+        newBandExpense = (event.totalRevenue * (bandExpense.percent / 100));
+      }
+
+      /* Checking for a negative admin fee */
+      if (newAdminFee < 0) {
         newAdminFee = 0;
       }
 
-      const expensesTotal = () => (
-        Object.keys(event.expenses).map((expense) => {
-          const expenseTotal = (event.expenses[expense].cost);
-          return expenseTotal;
-        })
-      );
-      const totalExpenses = expensesTotal().reduce((a, b) => a + b);
-
-      if (adminFeeStatus === 'NoAdminFee') {
-        eventRef.update({
-          fee: 0,
-          max_fee: 0,
-          band_minimum: 0,
-          totalExpenses,
-        });
-      } else {
-        eventRef.update({
-          fee: newAdminFee,
-          totalExpenses,
-        });
+      /* Checking if the new admin fee is greater than the event fee,
+       * if it is set the admin fee to the max event fee */
+      if (newAdminFee > event.max_fee) {
+        newAdminFee = event.max_fee;
       }
-      // ***** Set the expenses and event updates in the database and the store
-      if (newBandExpense) {
-        expensesRef.child(bandExpenseId).update({
-          cost: newBandExpense,
-        });
-      }
-      if (newVenueExpense) {
-        expensesRef.child(venueExpenseId).update({
-          cost: newVenueExpense,
-        });
-      }
+    } else if (event.totalRevenue === 0) { // Reset everything to 0 if there is no revenue
+      newBandExpense = 0;
+      newVenueExpense = 0;
+      newAdminFee = 0;
     }
+
+      /* Get the total of all expenses */
+    const totalExpenses = getTotalEventExpenses(event.expenses);
+
+      /* If the admin fee status is set to 'noadminfee' then set all the
+       * options to zero, and return the total expenses. This functionality
+       * is for the "Remove Admin Fee" button inside the app */
+    const eventRef = eventsRef.child(eventId);
+    const expensesRef = eventRef.child('expenses');
+    if (adminFeeStatus === 'NoAdminFee') {
+      eventRef.update({
+        fee: 0,
+        max_fee: 0,
+        band_minimum: 0,
+        totalExpenses,
+      });
+    } else {
+      eventRef.update({
+        fee: newAdminFee,
+        totalExpenses,
+      });
+    }
+
+    /* Check to see if there is a bandExpense */
+    expensesRef.child(bandExpenseId).update({
+      cost: newBandExpense,
+    });
+    expensesRef.child(venueExpenseId).update({
+      cost: newVenueExpense,
+    });
   }
 }
 

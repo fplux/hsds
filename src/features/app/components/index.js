@@ -29,6 +29,8 @@ export { DashboardContainer } from './dashboard/DashboardContainer';
 
 export { LoginContainer } from './login/LoginContainer';
 
+export { AdminContainer } from './admin/AdminContainer';
+
 // export { AdminFee } from './AdminFee';
 // export { Admission } from './Admission';
 // export { Cashbox } from './Cashbox';

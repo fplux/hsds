@@ -89,6 +89,16 @@ export function fetchCommonTickets(common) {
   };
 }
 
+export function setAdminDetails(adminInfo) {
+  return function (dispatch) { //eslint-disable-line
+    dispatch({ type: 'START_FETCHING_ADMIN' });
+    dispatch({
+      type: 'RECEIVED_ADMIN_DETAILS',
+      adminInfo,
+    });
+  };
+}
+
 export const clearTicket = () => ({
   type: 'CLEAR_TICKET',
 });

@@ -38,6 +38,23 @@ export const event = (state = [], action) => {
   }
 };
 
+export const admin = (state = [], action) => {
+  switch (action.type) {
+    case 'START_FETCHING_ADMIN':
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'RECEIVED_ADMIN_DETAILS':
+      return {
+        ...action.adminInfo,
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
 export const futureEvents = (state = [], action) => {
   switch (action.type) {
     case 'START_FETCHING_FUTURE_EVENTS':
@@ -223,6 +240,7 @@ const user = (state = [], action) => {
 };
 
 export default combineReducers({
+  admin,
   events,
   event,
   years,

@@ -49,13 +49,15 @@ const {
   ReportsContainer,
   YearReportContainer,
   DashboardContainer,
-  LoginContainer } = app.components;
+  LoginContainer,
+  AdminContainer } = app.components;
 
 /* Define routes for administrators */
 const adminUserRoutes = () => (
   <Route path="/" component={App} >
     <IndexRoute component={DashboardContainer} onEnter={requireLogin} />
     <Route path="/login" component={LoginContainer} onEnter={redirectIfLoggedIn} />
+    <Route path="/admin" component={AdminContainer} onEnter={requireLogin} />
     <Route path="/events" component={EventsListContainer} onEnter={requireLogin} />
     <Route path="/new" component={AddEvent} onEnter={requireLogin} />
     <Route path="/reports" component={ReportsContainer} onEnter={requireLogin} />
