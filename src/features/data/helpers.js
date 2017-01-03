@@ -16,7 +16,8 @@ export function fetchEvents() {
   eventsRef.orderByChild('date').on('value', (snapshot) => {
     const events = snapshot.val();
     Object.keys(events).map((event) => {
-      const year = events[event].date.split('/')[2];
+      let year = events[event].date.split('/')[2];
+      year = year.split(' ')[0];
       if (years.indexOf(year) === -1 && year <= currentYear) {
         years.push(year);
       }
@@ -69,6 +70,9 @@ export function calculateData() {
   let venueExpenses = 0;
   let countWithBands = 0;
   let countWithVenues = 0;
+  let avgBandCost = 0;
+  let avgEvent = 0;
+  let avgVenueCost = 0;
 
   const numEvents = Object.keys(events).length;
   Object.keys(events).map((event) => { //eslint-disable-line
@@ -89,10 +93,26 @@ export function calculateData() {
     income += i.totalRevenue;
     count += i.totalCount;
   });
-  const avgBandCost = (bandExpenses / countWithBands).toFixed(2);
-  const avgVenueCost = (venueExpenses / countWithVenues).toFixed(2);
-  const avgEvent = Math.round(count / numEvents);
-  revper = (income / count).toFixed(2); // calculate the revenue per person for the year
+
+
+  if (bandExpenses > 0 && countWithBands > 0) {
+    avgBandCost = (bandExpenses / countWithBands).toFixed(2);
+  }
+
+  if (venueExpenses > 0 && countWithVenues) {
+    avgVenueCost = (venueExpenses / countWithVenues).toFixed(2);
+  }
+
+  if (count > 0 && numEvents > 0) {
+    avgEvent = Math.round(count / numEvents);
+  }
+
+  if (income > 0 && count > 0) {
+    revper = (income / count).toFixed(2); // calculate the revenue per person for the year
+  } else {
+    revper = 0;
+  }
+
   store.dispatch(actions.setData(
     net,
     income,

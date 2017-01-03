@@ -28,11 +28,13 @@ export class YearReport extends React.Component {
       if (this.props.loading === false) {
         const { events } = this.props;
         const netArray = [];
-        Object.keys(events).map((event) => {
-          netArray.push(events[event].net);
-          return netArray;
-        });
-        return netArray.reduce((a, b) => a + b);
+        if (Object.keys(events).length > 0) {
+          Object.keys(events).map((event) => {
+            netArray.push(events[event].net);
+            return netArray;
+          });
+          return netArray.reduce((a, b) => a + b);
+        }
       }
       return true;
     };
