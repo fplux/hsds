@@ -6,7 +6,7 @@ import * as actions from '../data/actions';
 
 const eventsRef = firebaseRef.child('events');
 
-const currentDate = moment().subtract(1, 'days').format('L'); // get the current date
+const currentDate = moment().format('L'); // get the current date
 const currentYear = currentDate.split('/')[2];
 
 /* Fetch Events from firebase and set them to the redux store */
