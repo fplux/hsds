@@ -5,6 +5,12 @@ import * as api from '../../../data/api';
 export class Tickets extends React.Component {
   handleModifyTicket(edit) {
     const { eventId, typeId, count, price } = this.props;
+    const ticketId = document.getElementById(`count-${typeId}`);
+    ticketId.classList.add('increased');
+    setTimeout(() => {
+      ticketId.classList.remove('increased');
+    }, 250);
+
     api.modifyTicket(eventId, typeId, count, price, edit);
   }
   handleClick(e) {
@@ -35,8 +41,8 @@ export class Tickets extends React.Component {
           ><i className="fi-minus" />
           </button>
         </td>
-        <td className="td-1">{this.props.count}</td>
-        <td className="td-2">${this.props.price * this.props.count}</td>
+        <td id={`count-${typeId}`} className="td-1"><span>{this.props.count}</span></td>
+        <td className="td-2"><span>${this.props.price * this.props.count}</span></td>
       </tr>
     );
   }

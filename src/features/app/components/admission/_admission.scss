@@ -13,6 +13,56 @@
   width: 100px;
 }
 
+#tickets-table-body {
+  .total-count {
+    span {
+      display: flex;
+      justify-content: center;
+      width: 50px;
+    }
+  }
+}
+
+@keyframes clicked {
+    0%   {
+      font-size: 1em;
+    }
+    25% {
+      background: rgba(77, 169, 62, 0.4);
+    }
+    50% {
+      background: rgba(77, 169, 62, 0.8);
+    }
+    75% {
+      background: rgba(77, 169, 62, 0.4);
+    }
+    100% {
+      font-size: 1em;
+      background: none;
+    }
+}
+
+.td-1 {
+  span {
+    display: flex;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    padding: 10px;
+  }
+}
+
+
+.increased {
+  span {
+    animation-name: clicked;
+    animation-duration: 0.25s;
+
+  }
+
+}
+
 
 .edit {
   font-size: 1em;
@@ -28,6 +78,27 @@
 }
 
 @media (max-width: 600px) {
+  .td-1 {
+    span {
+      display: flex;
+      justify-content: center;
+      width: 25px;
+      height: 25px;
+      border-radius: 25px;
+      padding: 5px;
+    }
+  }
+
+  #tickets-table-body {
+    .total-count {
+      span {
+        display: flex;
+        justify-content: center;
+        width: 25px;
+      }
+    }
+  }
+
   .fi-plus, .fi-minus {
     font-size: 1.5em;
   }
