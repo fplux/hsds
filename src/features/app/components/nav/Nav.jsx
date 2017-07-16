@@ -32,6 +32,7 @@ export class Nav extends React.Component {
     const renderYears = () => {
       if (this.props.loading === false) {
         const { years } = this.props;
+        years.sort((a, b) => a - b);
         return Object.keys(years).map((year) => {
           const yearInfo = years[year];
           return (

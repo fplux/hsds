@@ -47,7 +47,7 @@ export class Admission extends React.Component {
             {renderTickets()}
             <tr>
               <td colSpan="4">Total Income</td>
-              <td>{this.props.totalCount}</td>
+              <td className="total-count"><span>{this.props.totalCount}</span></td>
               <td>${this.props.totalRevenue}</td>
             </tr>
           </tbody>
