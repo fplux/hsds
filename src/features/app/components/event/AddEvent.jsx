@@ -45,6 +45,10 @@ export class AddEvent extends React.Component {
   }
   handleSubmit(e) {
     e.preventDefault();
+    if (this.state.newEvent.date === '') {
+      this.setState({ error: true, errorMessage: 'No Date' });
+      return;
+    }
     api.addEvent(this.state.newEvent);
     window.location = '#/events';
   }
@@ -52,7 +56,7 @@ export class AddEvent extends React.Component {
     const errorMessage = () => {
       if (this.state.error) {
         return (
-          <p className="error-message">You must enter a date</p>
+          <p className="error-message">{this.state.errorMessage}</p>
         );
       }
       return true;
@@ -106,7 +110,7 @@ export class AddEvent extends React.Component {
               <label htmlFor="band_minimum">Band Minimum:</label><br />
               $
               <select size="1" id="band_minimum" onChange={this.handleValueChange} >
-                {renderFeeOptions(700)}
+                {renderFeeOptions(1000)}
               </select>
             </div>
 
@@ -116,7 +120,6 @@ export class AddEvent extends React.Component {
             <Link to="events"><button className="custom-buttons btn btn-danger">Cancel</button></Link>
             <br />
             {errorMessage()}
-            {this.state.errorMessage}
           </form>
         </div>
       </div>
