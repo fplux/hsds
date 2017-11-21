@@ -31,8 +31,11 @@ export function addEvent(newEvent) {
 }
 
 export function deleteEvent(eventId) {
-  eventsRef.child(eventId).remove();
-  helpers.fetchEvents();
+  // copy the event and move to deleted
+  eventsRef.child(eventId).once('value').then((snapshot) => {
+    firebaseRef.child('backups').child(eventId).set(snapshot.val());
+    eventsRef.child(eventId).remove();
+  });
 }
 
 /* Fetch event details given an ID parameter */

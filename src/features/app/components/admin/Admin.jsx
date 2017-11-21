@@ -1,52 +1,41 @@
 import React from 'react';
 import * as api from '../../../data/api';
-
-const Loading = require('react-loading-animation');
+import { AdminEvent } from './AdminEvent';
+import * as shared from '../../../data/shared';
 
 export class Admin extends React.Component {
   constructor() {
     super();
     api.fetchAdminDetails();
   }
+  handleRemoveEvent = (eventId) => {
+    if (shared.confirmDeleteEvent() === true) {
+      api.deleteEvent(eventId);
+    }
+  }
   handleChange = (e) => {
     e.preventDefault();
   }
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+  }
   render() {
-    const renderSplits = () => {
-      if (this.props.admin.loading === false) {
-        const { bandSplit, venueSplit, adminFee, total } = this.props.admin;
-        return (
-          <div>
-            <label htmlFor="band-split">Band</label>
-            <input
-              type="text"
-              id="bandSplit"
-              onChange={this.handleChange}
-              defaultValue={bandSplit}
-            />
-            <br />
-
-            <label htmlFor="venue-split">Band</label>
-            <input type="text" id="venueSplit" onChange={this.handleChange} defaultValue={venueSplit} />
-            <br />
-
-            <label htmlFor="admin-fee">Band</label>
-            <input type="text" id="adminFee" onChange={this.handleChange} defaultValue={adminFee} />
-            <br />
-          </div>
-        );
-      }
-      return (
-        <Loading />
-      );
-    };
+    const { events } = this.props;
+    const renderEvents = () =>
+      Object.keys(events).map(e =>
+        <AdminEvent
+          key={e}
+          eventId={e}
+          removeEvent={this.handleRemoveEvent}
+          {...events[e]}
+        />);
     return (
       <div>
         <p className="text-center">Organization Administration page</p>
         <hr />
-
-        <h4>Split</h4>
-        {renderSplits()}
+        <div className="admin-events-container">
+          {renderEvents()}
+        </div>
       </div>
     );
   }
