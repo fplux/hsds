@@ -49,6 +49,11 @@ export class AddEvent extends React.Component {
       this.setState({ error: true, errorMessage: 'No Date' });
       return;
     }
+    let d = moment(this.state.newEvent.date);
+    if (d < Date.now()) {
+      this.setState({ error: true, errorMessage: 'The date is before the current date' });
+      return;
+    }
     api.addEvent(this.state.newEvent);
     window.location = '#/events';
   }
