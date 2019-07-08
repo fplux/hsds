@@ -19,10 +19,3 @@ export const YearlySummary = props => (
     </div>
   </div>
 );
-
-YearlySummary.propTypes = {
-  year: React.PropTypes.string,
-  income: React.PropTypes.number,
-  expenses: React.PropTypes.number,
-  net: React.PropTypes.number,
-};

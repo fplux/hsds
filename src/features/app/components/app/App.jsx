@@ -10,7 +10,3 @@ export const App = props => (
     </div>
   </div>
 );
-
-App.propTypes = {
-  children: React.PropTypes.node,
-};

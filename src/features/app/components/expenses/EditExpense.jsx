@@ -17,8 +17,8 @@ export class EditExpense extends React.Component {
     const modifiedExpense = {
       type: this.type.value,
       notes: this.notes.value,
-      cost: parseInt(this.cost.value, 10),
-      percent: this.percent.value,
+      cost: parseFloat(this.cost.value),
+      percent: parseFloat(this.percent.value),
       paid: this.paid.checked,
     };
     api.editExpenseDetails(id, expenseid, modifiedExpense);
@@ -79,19 +79,3 @@ export class EditExpense extends React.Component {
     );
   }
 }
-
-EditExpense.propTypes = {
-  params: React.PropTypes.shape({
-    id: React.PropTypes.string,
-    expenseid: React.PropTypes.string,
-  }),
-  dispatch: React.PropTypes.func,
-  expense: React.PropTypes.shape({
-    type: React.PropTypes.string,
-    cost: React.PropTypes.number,
-    notes: React.PropTypes.string,
-    paid: React.PropTypes.bool,
-    percent: React.PropTypes.string,
-    loading: React.PropTypes.bool,
-  }),
-};

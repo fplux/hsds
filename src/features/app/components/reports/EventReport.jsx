@@ -8,10 +8,3 @@ export const EventReport = props => (
     <td>${props.net}</td>
   </tr>
 );
-
-EventReport.propTypes = {
-  eventId: React.PropTypes.string,
-  name: React.PropTypes.string,
-  date: React.PropTypes.string,
-  net: React.PropTypes.number,
-};

@@ -19,11 +19,3 @@ export const BalSummary = props => (
     </div>
   </div>
 );
-
-BalSummary.propTypes = {
-  balData: React.PropTypes.shape({
-    numEvents: React.PropTypes.number,
-    count: React.PropTypes.number,
-    avgAttendance: React.PropTypes.number,
-  }),
-};

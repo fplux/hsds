@@ -164,21 +164,3 @@ export class EditEvent extends React.Component {
     );
   }
 }
-
-/* React Proptypes */
-EditEvent.propTypes = {
-  params: React.PropTypes.shape({
-    id: React.PropTypes.string,
-  }),
-  loading: React.PropTypes.bool,
-  event: React.PropTypes.shape({
-    type: React.PropTypes.string,
-    date: React.PropTypes.string,
-    name: React.PropTypes.string,
-    time: React.PropTypes.string,
-    fee: React.PropTypes.string,
-    max_fee: React.PropTypes.string,
-    band_minimum: React.PropTypes.string,
-    cash: React.PropTypes.number,
-  }),
-};

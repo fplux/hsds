@@ -35,8 +35,3 @@ export class EventsList extends React.Component {
     );
   }
 }
-
-EventsList.propTypes = {
-  loading: React.PropTypes.bool,
-  events: React.PropTypes.object, //eslint-disable-line
-};

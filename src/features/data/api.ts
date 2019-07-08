@@ -50,8 +50,8 @@ export function fetchEventDetails(id) {
         ...events[event],
       });
     });
-    const disabled = new Date(parsedEvents[0].date).getTime() < new Date(moment().format('L')).getTime();
-    store.dispatch(actions.fetchEventDetails(parsedEvents, disabled));
+    const finalized = new Date(parsedEvents[0].date).getTime() < new Date(moment().format('L')).getTime();
+    store.dispatch(actions.fetchEventDetails(parsedEvents, finalized));
   });
 }
 
@@ -63,7 +63,11 @@ export function unsubscribeToEvent(id) {
 
 export function subscribeToEvent(id: string, callback: (event: IEvent) => void) {
   eventsRef.child(id).on('value', snapshot => {
-    callback(snapshot.val());
+    const event = snapshot.val();
+    const finalized = new Date(event.date).getTime() < new Date(moment().format('L')).getTime();
+    eventsRef.child(id).update({finalized});
+    
+    callback(event);
   });
 }
 

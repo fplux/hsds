@@ -121,9 +121,3 @@ export class Nav extends React.Component {
     );
   }
 }
-
-Nav.propTypes = {
-  loading: React.PropTypes.bool,
-  years: React.PropTypes.array,// eslint-disable-line
-  user: React.PropTypes.user,
-};

@@ -25,7 +25,7 @@ export interface IEvent {
   expenses?: { [expenseId: string]: IExpense },
   tickets?: { [ticketId: string]: ITicket },
   totalExpenses?: number,
-  disabled?: boolean,
+  finalized?: boolean,
   totalRevenue?: number,
   totalCount?: number,
   endingCash?: number,

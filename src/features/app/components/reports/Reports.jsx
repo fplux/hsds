@@ -47,8 +47,3 @@ export class Reports extends React.Component {
     );
   }
 }
-
-Reports.propTypes = {
-  loading: React.PropTypes.bool,
-  events: React.PropTypes.object, // eslint-disable-line
-};

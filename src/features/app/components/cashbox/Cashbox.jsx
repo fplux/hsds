@@ -21,9 +21,3 @@ export const Cashbox = props => (
     </table>
   </div>
 );
-
-Cashbox.propTypes = {
-  cash: React.PropTypes.number,
-  endingCash: React.PropTypes.number,
-  net: React.PropTypes.number,
-};

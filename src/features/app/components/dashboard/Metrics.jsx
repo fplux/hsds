@@ -19,7 +19,3 @@ export const Metrics = props => (
     </div>
   </div>
 );
-
-Metrics.propTypes = {
-  revper: React.PropTypes.string,
-};

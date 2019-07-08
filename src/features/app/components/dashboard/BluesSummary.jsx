@@ -19,11 +19,3 @@ export const BluesSummary = props => (
     </div>
   </div>
 );
-
-BluesSummary.propTypes = {
-  bluesData: React.PropTypes.shape({
-    numEvents: React.PropTypes.number,
-    count: React.PropTypes.number,
-    avgAttendance: React.PropTypes.number,
-  }),
-};

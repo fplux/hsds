@@ -15,13 +15,22 @@ export class Expense extends React.Component {
     }
   }
   render() {
-    const { expenseId, type, notes, cost, percent, eventId, paid } = this.props;
-    const parsedCost = cost.toFixed(0);
+    const { expenseId, type, desc, notes, cost, percent, eventId, paid } = this.props;
+    const parsedCost = cost.toFixed(2);
+    const renderPercent = () => {
+      if (type === 'Split') {
+        return (
+          <td>{ percent }%</td>
+        );
+      }
+      return 'NA';
+    };
     return (
       <tr>
-        <td><Link onClick={e => this.handleClick(e)} to={`events/${eventId}/editexpense/${expenseId}`}>{type}</Link></td>
+        <td><Link onClick={e => this.handleClick(e)} to={`events/${eventId}/editexpense/${expenseId}`}>{desc}</Link></td>
+        <td>{type}</td>
         <td>{notes}</td>
-        <td>{percent}%</td>
+        {renderPercent()}
         <td>
           <input
             disabled={this.props.disabled}
@@ -36,14 +45,3 @@ export class Expense extends React.Component {
     );
   }
 }
-
-Expense.propTypes = {
-  expenseId: React.PropTypes.string,
-  type: React.PropTypes.string,
-  notes: React.PropTypes.string,
-  cost: React.PropTypes.number,
-  percent: React.PropTypes.string,
-  eventId: React.PropTypes.string,
-  paid: React.PropTypes.bool,
-  disabled: React.PropTypes.bool,
-};

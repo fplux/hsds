@@ -16,6 +16,15 @@ export function eventsReceived(events) {
   };
 }
 
+export function fetchConfig(config) {
+  return function (dispatch) { //eslint-disable-line
+    dispatch({ type: 'START_FETCHING_CONFIG' });
+    dispatch({
+      type: 'RECEIVED_CONFIG',
+      config,
+    });
+  };
+}
 
 export const pastEventsReceived = events => ({
   type: 'RECEIVED_PAST_EVENTS',

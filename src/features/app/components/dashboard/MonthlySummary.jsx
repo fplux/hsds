@@ -19,11 +19,3 @@ export const MonthlySummary = props => (
     </div>
   </div>
 );
-
-MonthlySummary.propTypes = {
-  monthlyData: React.PropTypes.shape({
-    numEvents: React.PropTypes.number,
-    count: React.PropTypes.number,
-    avgAttendance: React.PropTypes.number,
-  }),
-};

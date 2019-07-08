@@ -56,14 +56,19 @@ export const PreFinalizeEvent: FunctionComponent<PreFinalizeEventProps> = (props
             <p>Current band payout ${helpers.findBandPayout(event.expenses)}</p>
           </div>
           
-          <div>
-            Do you want to apply an admin fee to this event?
-          </div>
-          <select onChange={(e) => handleSelection(e.target.value)}>
-            <option value=""></option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>            
-          </select>
+          {
+            event.band_minimum &&
+            <>
+              <div>
+                Do you want to apply an admin fee to this event?
+              </div>
+              <select onChange={(e) => handleSelection(e.target.value)}>
+                <option value=""></option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>            
+              </select>
+            </>
+          }
 
           {
             requireAdminFee &&

@@ -61,11 +61,3 @@ export class YearReport extends React.Component {
     );
   }
 }
-
-YearReport.propTypes = {
-  loading: React.PropTypes.bool,
-  events: React.PropTypes.object, // eslint-disable-line
-  params: React.PropTypes.shape({
-    year: React.PropTypes.string,
-  }),
-};

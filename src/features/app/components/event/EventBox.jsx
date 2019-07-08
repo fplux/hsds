@@ -29,14 +29,3 @@ export class EventBox extends React.Component {
     );
   }
 }
-
-EventBox.propTypes = {
-  eventKey: React.PropTypes.string,
-  name: React.PropTypes.string,
-  date: React.PropTypes.string,
-  time: React.PropTypes.string,
-  totalRevenue: React.PropTypes.number,
-  totalExpenses: React.PropTypes.number,
-  net: React.PropTypes.number,
-  class: React.PropTypes.string,
-};

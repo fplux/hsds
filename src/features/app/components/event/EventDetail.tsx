@@ -18,12 +18,11 @@ const Loading = require('react-loading-animation');
 
 interface EventDetailProps {
   params: RouteInfo,
-  disabled: boolean,
   user: any
 }
 
 export const EventDetail: FunctionComponent<EventDetailProps> = (props: EventDetailProps) => {
-  const { params, disabled, user } = props;
+  const { params, user } = props;
   const { id } = params;
   const { role } = user;
   const [ loading, setLoading ] = useState<boolean>(true);
@@ -42,7 +41,7 @@ export const EventDetail: FunctionComponent<EventDetailProps> = (props: EventDet
   }, []);
 
   const handleClick = (e) => {
-    if (disabled === true) {
+    if (event.finalized === true) {
       e.preventDefault();
     }
   }
@@ -64,14 +63,14 @@ export const EventDetail: FunctionComponent<EventDetailProps> = (props: EventDet
 
   const renderAdminFee = () => {
     const { fee } = event; //eslint-disable-line
-    if (fee > 0 && disabled === false) {
+    if (fee > 0 && event.finalized === false) {
       return (
         <div>
           <RemoveAdminFee eventId={id} />
           <AdminFee fee={fee} />
         </div>
       );
-    } else if (fee > 0 && disabled === true) {
+    } else if (fee > 0 && event.finalized === true) {
       return (
         <AdminFee fee={fee} />
       );
@@ -80,9 +79,9 @@ export const EventDetail: FunctionComponent<EventDetailProps> = (props: EventDet
   };
 
   const disabledMessage = () => {
-    if (disabled === true) {
+    if (event.finalized === true) {
       return (
-        <h5 className="text-center disabled-message">Editing this event is disabled</h5>
+        <h5 className="text-center event.finalized-message">Editing this event is disabled</h5>
       );
     }
     return true;
@@ -122,7 +121,7 @@ export const EventDetail: FunctionComponent<EventDetailProps> = (props: EventDet
             userClass={userClass()}
             tickets={event.tickets}
             eventId={id}
-            disabled={event.disabled}
+            disabled={event.finalized}
             totalRevenue={event.totalRevenue}
             totalCount={event.totalCount}
           />
@@ -131,7 +130,7 @@ export const EventDetail: FunctionComponent<EventDetailProps> = (props: EventDet
             userClass={userClass()}
             expenses={sortedExpenses}
             eventId={id}
-            disabled={event.disabled}
+            disabled={event.finalized}
           />
           <Cashbox
             userClass={userClass()}

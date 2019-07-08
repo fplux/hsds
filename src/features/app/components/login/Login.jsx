@@ -23,7 +23,3 @@ export class Login extends React.Component {
     );
   }
 }
-
-Login.propTypes = {
-  error: React.PropTypes.string,
-};

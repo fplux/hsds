@@ -120,3 +120,44 @@ body {
     float:left;
   }
 }
+
+.portal-modal {
+  position: absolute;
+  top: 75px;
+  height: 75%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: lightgray;
+  opacity: 0.9;
+}
+
+.flex-row {
+  display: flex;
+}
+
+.flex-justify-center {
+  justify-content: center;
+}
+
+.flex-justify-space-between {
+  justify-content: space-between;
+}
+
+.flex-justify-space-around {
+  justify-content: space-around;
+}
+
+.flex-align-center {
+  align-items: center;
+}
+
+.link {
+  color: #337ab7;
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

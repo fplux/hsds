@@ -55,6 +55,23 @@ export const admin = (state = [], action) => {
   }
 };
 
+export const config = (state = [], action) => {
+  switch (action.type) {
+    case 'START_FETCHING_CONFIG':
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'RECEIVED_CONFIG':
+      return {
+        ...action.config,
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
 export const futureEvents = (state = [], action) => {
   switch (action.type) {
     case 'START_FETCHING_FUTURE_EVENTS':
@@ -243,6 +260,7 @@ export default combineReducers({
   admin,
   events,
   event,
+  config,
   years,
   ticket,
   expense,
